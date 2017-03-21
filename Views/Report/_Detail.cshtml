@@ -1,0 +1,69 @@
+﻿@using MVCtutorial.Report.Models
+@model ReportViewModel
+
+@{
+     ViewBag.TitleDetail = "Batch detail:";
+}
+
+<h4>@ViewBag.TitleDetail</h4>
+
+<div class="det-header">    
+    <p>Batch ID:<span>1235</span></p>
+    <p>Bowl ID:<span>12</span></p>
+    <p>Recipe:<span>1 - Sourdough bread</span></p>
+    <p>Time:<span>11.02.2017 08:00</span>-<span>08:30</span></p>    
+</div>
+
+<div>
+    <table class="table table-bordered thin-row det-tab">
+        <tr>
+            <th style="width: 40px;">Step</th>            
+            <th style="width: 135px">Start</th>
+            <th style="width: 135px">End</th>
+            <th style="width: 100px">Operation</th>
+            <th style="width: 125px">Device ID</th>
+            <th style="min-width: 180px">Recipe of device</th>
+            <th style="width: 105px">Need</th>
+            <th style="width: 105px">Done</th>
+            <th style="width: 105px">Diff</th>            
+            <th style="width: 100px">Status</th>
+        </tr>
+        <tr data-toggle="tooltip" data-placement="left" title="Trace ID">
+            <td>01</td>
+            <td>11.02. 08:00:10</td>
+            <td>11.02. 08:12:50</td>
+            <td>dosing</td>
+            <td>65465</td>
+            <td></td>
+            <td class="text-right" data-toggle="tooltip" data-placement="top" title="-3kg / +7kg">450 kg&ensp;</td>
+            <td class="text-right">453 kg&ensp;</td>
+            <td class="text-right">+  3 kg&nbsp;</td>
+            <td class="status-ok">forced / ok</td>
+        </tr>
+        <tr>
+            <td>02</td>            
+            <td>11.02. 08:14:00</td>
+            <td>11.02. 08:18:30</td>
+            <td>kneading</td>
+            <td>11465</td>
+            <td>kneading 1</td>
+            <td class="text-right" data-toggle="tooltip" data-placement="top" title="-3min / +2min">5:00 min</td>
+            <td class="text-right">4:30 min</td>
+            <td class="text-right">- 0:30 min</td>
+            <td class="status-nok" data-toggle="tooltip" data-placement="top" title="skipped by user">error</td>
+        </tr>
+        <tr>
+            <td>03</td>            
+            <td>11.02. 08:35:15</td>
+            <td>11.02. 08:42:10</td>
+            <td>outdosing</td>            
+            <td>21335</td>
+            <td>outdosing 1</td>
+            <td class="text-right" data-toggle="tooltip" data-placement="top" title="-1,2°C / +0,7°C">15 °C&ensp;</td>
+            <td class="text-right">15,6 °C&ensp;</td>
+            <td class="text-right">+  0,6 °C&ensp;</td>
+            <td class="status-ok">ok</td>
+        </tr>
+    </table>
+</div>
+

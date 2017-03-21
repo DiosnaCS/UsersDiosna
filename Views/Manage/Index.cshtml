@@ -1,0 +1,39 @@
+﻿@model UsersDiosna.Models.IndexViewModel
+@{
+    ViewBag.Title = "Manage";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div>
+    <h4>Change your account settings</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Password:</dt>
+        <dd>
+            [
+            @if (Model.HasPassword)
+            {
+                @Html.ActionLink("Change your password", "ChangePassword")
+            }
+            else
+            {
+                @Html.ActionLink("Create", "SetPassword")
+            }
+            ]
+        </dd>
+        <dt>Set your Default view in Menu</dt>
+        <dd>
+            <p>
+                [ @Html.ActionLink("Manage", "DefaultView") ]
+            </p>
+        </dd>
+        <dt>Change your theme (how would look like this website)</dt>
+        <dd>
+            <p>
+                [ @Html.ActionLink("Manage", "ChangeTheme") ]
+            </p>
+        </dd>
+    </dl>
+</div>

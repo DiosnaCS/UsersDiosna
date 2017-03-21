@@ -1,0 +1,20 @@
+﻿<h2>@ViewBag.Title</h2>
+<table class="tg">
+    <tr>
+        <th class="tg-yw4l">Id</th>
+        <th class="tg-yw4l">Alarm Label</th>
+        <th class="tg-yw4l">Origin Time</th>
+        <th class="tg-yw4l">ExpiryTime</th>
+    </tr>
+    
+        @for (int i=0; i<1010;i++)
+        {
+        <tr>
+            <td class="tg-yw4l">@ViewBag.Id[i]</td>
+            <td class="tg-yw4l">@ViewBag.Label[i]</td>
+            <td class="tg-yw4l">@ViewBag.originTime[i]</td>
+            <td class="tg-yw4l">@ViewBag.expTime[i]</td>
+        </tr>
+        }
+
+</table>

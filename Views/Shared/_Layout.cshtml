@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Users Diosna</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+</head>
+@{
+    ViewBag.error = Session["tempforview"];
+}
+<body onresize="responsive()">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Users Diosna", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                @if (User.IsInRole("Admin"))
+                {
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Projects", "Homepage", "Home")</li>
+                        <li>@Html.ActionLink("CMS", "Index", "CMS")</li>
+                        <li>@Html.ActionLink("XML", "Index", "XML")</li>
+                    </ul>
+                }
+                @Html.Partial("_LoginPartial")
+            </div>
+
+        </div>
+    </div>
+    @if (Session["types"] != null)
+    {
+        <div class="sidenav">
+            @Html.Partial("~/Views/Menu/_Menu.cshtml")
+        </div>
+    }
+    <script>
+        function responsive() {
+            var sidenavWidth = $('.sidenav').width();
+            console.log(sidenavWidth);
+            document.getElementById('container-body').style.marginLeft = sidenavWidth + 'px';
+        }
+    </script>
+    <div class="container body-content" id="container-body">
+        <div class="message">@ViewBag.error<br></div>
+        @RenderBody()
+    </div>
+    <hr />
+    @{
+        Session["tempforview"] = null;
+    }
+    <footer>
+        <p>&copy; @DateTime.Now.Year - DIOSNA CS s.r.o. - Liberec</p>
+    </footer>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
