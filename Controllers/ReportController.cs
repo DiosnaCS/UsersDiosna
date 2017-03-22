@@ -7,7 +7,7 @@ using UsersDiosna.Report.Models;
 
 namespace UsersDiosna.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class ReportController : Controller
     {
         List<Batch> BatchList = new List<Batch>();
@@ -35,9 +35,6 @@ namespace UsersDiosna.Controllers
             DateTime T = model.TimeFrom;
             int date;//in pkTIime
             int recipeNo = model.Recipe;
-            //Comment fřrom george
-            //Comment from marek
-            //Comment from George
         }
     }
 }
