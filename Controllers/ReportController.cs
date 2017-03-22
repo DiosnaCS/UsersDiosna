@@ -11,11 +11,11 @@ namespace UsersDiosna.Controllers
     public class ReportController : Controller
     {
         List<Batch> BatchList = new List<Batch>();
-        public void getBatch() {
+        public void getBatch(object[] result) {
             Batch batch = new Batch() { };
             BatchList.Add(batch);
         }
-        public ReportViewModel getReport() {
+        public ReportViewModel getReport(List<Batch> BatchList) {
             return new ReportViewModel() { Batches = BatchList.ToArray() };
         }
         // GET: Report
@@ -26,7 +26,15 @@ namespace UsersDiosna.Controllers
         
         [HttpPost]
         public ActionResult Index(ReportFormModel model) {
-            return View();
+            SelectReport(model);
+            return PartialView("_Overview");
+        }
+
+        public void SelectReport(ReportFormModel model) {
+            DateTime D = model.DateFrom;
+            DateTime T = model.TimeFrom;
+            int date;//in pkTIime
+            int recipeNo = model.Recipe;
         }
     }
 }

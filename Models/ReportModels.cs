@@ -4,8 +4,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace UsersDiosna.Report.Models
 {
+
     public class ReportFormModel
     {
+        public Int32 ConvertDT2pkTime(DateTime date, DateTime time)
+        {
+            Int32 pkTime = 0;
+
+            return pkTime;
+        }
 
         // StartId
         public Int32 StartId { get; set; }
@@ -13,29 +20,48 @@ namespace UsersDiosna.Report.Models
         // StartId
         public Int16 Count { get; set; }
 
-        // time from
+        // date time from
         [Display(Name = "From:")]
+        [DataType(DataType.Date)]
+        public DateTime DateFrom
+        {
+            get
+            {
+                return DateFrom;
+            }
+            set
+            {
 
-        [DataType(DataType.DateTime)]
-        public Int32 DateFrom { get; set; }
+            }
+        }
 
-        [DataType(DataType.DateTime)]
-        public Int32 TimeFrom { get; set; }
+        [DataType(DataType.Time)]
+        public DateTime TimeFrom
+        {
+            get
+            {
+                return TimeFrom;
+            }
+            set
+            {
 
-        // time to
+            }
+        }
+
+        // date time to
         [Display(Name = "To:")]
-        [DataType(DataType.DateTime)]
-        public Int32 DateTo { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime DateTo { get; set; }
 
-        [DataType(DataType.DateTime)]
-        public Int32 TimeTo { get; set; }
+        [DataType(DataType.Time)]
+        public DateTime TimeTo { get; set; }
 
         // recipe        
         [Display(Name = "Recipe:")]
         public int Recipe { get; set; }
 
         // over limits
-        [Display(Name = "over limits")]
+        [Display(Name = "over lim.")]
         public bool Par0Sel { get; set; }
 
         // amount
@@ -83,7 +109,7 @@ namespace UsersDiosna.Report.Models
         None = 0,
         Forced = 1,
         OK = 2,
-     }
+    }
     public class ReportViewModel
     {
         public Batch[] Batches; //array of current batches 
@@ -91,20 +117,26 @@ namespace UsersDiosna.Report.Models
     public class Batch
     {
         public uint Id /*diRecordNo directly from db*/ { get; set; }
-        public DateTime StartTime /*In pkTime from server, at a client conversion to dateTime*/ { get { return StartTime; }
+        public DateTime StartTime /*In pkTime from server, at a client conversion to dateTime*/
+        {
+            get { return StartTime; }
             set
             {
                 long timeInNanoSeconds = value.Ticks * 10000000;
                 DateTime datetime = new DateTime(((630836424000000000 - 13608000000000) + timeInNanoSeconds));
                 StartTime = datetime;
-            } }
-        public DateTime EndTime /*In pkTime from server, at a client conversion to dateTime*/ { get { return EndTime; }
+            }
+        }
+        public DateTime EndTime /*In pkTime from server, at a client conversion to dateTime*/
+        {
+            get { return EndTime; }
             set
             {
                 long timeInNanoSeconds = value.Ticks * 10000000;
                 DateTime datetime = new DateTime(((630836424000000000 - 13608000000000) + timeInNanoSeconds));
                 EndTime = datetime;
-            } }
+            }
+        }
         public short RecipeNr /*iRecipeNo directly from db*/ { get; set; }
         public string RecipeName /*string directly from db*/ { get; set; }
         public BatchStatus status /* flag type */ { get; set; }
@@ -124,6 +156,6 @@ namespace UsersDiosna.Report.Models
         //Diff should be calculted by client
 
         public StepStatus Status /*siStatus directly from db*/ { get; set; }
-        
+
     }
 }

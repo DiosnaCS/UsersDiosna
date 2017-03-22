@@ -70,5 +70,7 @@
 		</Upload>
 		<CMS name="Project Info">
 		</CMS>
+    <Report>
+    </Report>
 	</plc>
 </configuration>

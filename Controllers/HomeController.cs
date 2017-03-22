@@ -60,7 +60,7 @@ namespace UsersDiosna.Controllers
             }
             if (projectsCount <= 1)
             {
-                return RedirectToAction("Index", "Menu", );
+                return RedirectToAction("Index", "Menu");
             }
             return RedirectToAction("Index", "Menu");
         }

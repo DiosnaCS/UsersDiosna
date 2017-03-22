@@ -1,4 +1,4 @@
-﻿@using MVCtutorial.Report.Models
+﻿@using UsersDiosna.Report.Models
 @model ReportFormModel
 
 <script>
@@ -53,16 +53,18 @@
 
     function RecalcCount(rowHeight) {
         var count;
-        count = Math.round((windowHeight() - $('.navbar').height() - $('#top_menu').height() - $('.message').height() - $('footer').height()) / rowHeight);
+        count = Math.round((windowHeight() - $('.navbar').height() - $('#top_menu').height() - $('.message').height() - $('footer').height()-25) / rowHeight);
         console.log(count);
-        return count;
+
+        //$("#count").attr('value', count);
+        //return count;
     }
     
 </script>
 
 <div onload="InitReportFilter()"> <!-- pozdeji onclick tlacitka v menu -->    
     <section id="reportForm">
-        @using (Html.BeginForm("Form", "Report", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+        @using (Html.BeginForm("Form", "Report", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Get, new { role = "form" }))
         {
             <div>
                 @Html.HiddenFor(model => model.StartId, new { @id = "start_id", @value = 0} )
@@ -71,24 +73,24 @@
                 <!-- time from -->
                 <div class="form-item">
                    <!-- <label for="time_from">Time from:</label>                        
-                    <input id="time_from" class="date-time-in" type="datetime" value="01.01.2017 00:00" />                        -->
+                    <input id="time_from" class="date-time-in" type="datetime" value="01.01.2017__00:00" /> -->
                     @Html.LabelFor(model => model.DateFrom)
-                    @Html.TextBoxFor(model => model.DateFrom, new { @id = "date_from", @class = "date-in", @type = "date", @value=DateTime.Now })                                        
-                    @Html.TextBoxFor(model => model.TimeFrom, new { @id = "time_from", @class = "time-in", @type = "time", @value = DateTime.Now })                    
+                    @Html.TextBoxFor(model => model.DateFrom, new { @id = "date_from", @class = "date-in", @type = "date", @name = "date_from", @value=DateTime.Now })                                        
+                    @Html.TextBoxFor(model => model.TimeFrom, new { @id = "time_from", @class = "time-in", @type = "time", @name = "time_from", @value = DateTime.Now })                    
                 </div>
                 <!-- time to -->
                 <div class="form-item">          
                     <!-- <label for="time_to">Time to:</label>
-                    <input id="time_to" class="date-time-in" type="datetime" value="01.01.2017 00:00" /> -->
-                    @Html.LabelFor(model => model.TimeTo)
-                    @Html.TextBoxFor(model => model.TimeTo, new { @id = "date_to", @class = "date-in", @type = "date" })                                        
-                    @Html.TextBoxFor(model => model.TimeTo, new { @id = "time_to", @class = "time-in", @type = "time" })                   
+                    <input id="time_to" class="date-time-in" type="datetime" value="01.01.2017__00:00" /> -->
+                    @Html.LabelFor(model => model.DateTo)
+                    @Html.TextBoxFor(model => model.DateTo, new { @id = "date_to", @class = "date-in", @name = "date_to", @type = "date" })                                        
+                    @Html.TextBoxFor(model => model.TimeTo, new { @id = "time_to", @class = "time-in", @name = "time_to", @type = "time" })                   
                 </div>
                 <!-- rcp -->
                 <div class="form-item">
-                    <!-- <label for="rcp">Rcp:</label>                         -->
+                    <!-- <label for="rcp">Rcp:</label> -->
                     @Html.LabelFor(model => model.Recipe)
-                    @Html.TextBoxFor(model => model.TimeTo, new { @id = "time_to", @class = "date-time-in", @type = "number", @value = "0", @min = 0, @max = 30, @style = "width:50px;" })
+                    @Html.TextBoxFor(model => model.Recipe, new { @id = "recipe", @class = "rcp-in", @type = "number", @name = "recipe", @value = "0", @min = 0, @max = 30, @style = "width:50px;" })
                     <!-- <input id="rcp" value="0" type=number  style="width:50px;"/> -->
                 </div>
                 <!-- over Rcp limits -->
@@ -106,7 +108,7 @@
                     </div>
                     <div>
                         <label for="tol1">&plusmn</label>
-                        <input id="tol1" class="tol-set" value="0" type=number min=0 max=100 step="0.1" /><span style="margin-left:5px;">kg</span>
+                        <input id="tol1" class="tol-set" value="0" name="tol1"  type=number min=0 max=100 step="0.1" /><span style="margin-left:5px;">kg</span>
                     </div>
 
                 </div>
@@ -118,7 +120,7 @@
                     </div>
                     <div>
                         <label for="tol2">&plusmn</label>
-                        <input id="tol2" class="tol-set" value="0" type=number min=0 max=10 step="0.1" /><span style="margin-left:5px;">°C</span>
+                        <input id="tol2" class="tol-set" value="0" name="tol2" type=number min=0 max=10 step="0.1" /><span style="margin-left:5px;">°C</span>
                     </div>
                 </div>
                 <!-- step time -->
@@ -129,7 +131,7 @@
                     </div>
                     <div>
                         <label for="tol3">&plusmn</label>
-                        <input id="tol3" class="tol-set" value="0" type=number min=0 max=60 step="0.1" /><span style="margin-left:5px;">min</span>
+                        <input id="tol3" class="tol-set" value="0" name="tol3" type=number min=0 max=60 step="0.1" /><span style="margin-left:5px;">min</span>
                     </div>
                 </div>
                 <!-- interstep time -->
@@ -140,7 +142,7 @@
                     </div>                    
                     <div>
                         <label for="tol4">&plusmn</label>
-                        <input id="tol4" class="tol-set" value="0" type=number min=0 max=60 step="0.1"/><span style="margin-left:5px;">min</span>
+                        <input id="tol4" class="tol-set" value="0" name="tol4" type=number min=0 max=60 step="0.1"/><span style="margin-left:5px;">min</span>
                     </div>
                 </div>
             </div>

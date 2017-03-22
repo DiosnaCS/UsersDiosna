@@ -1,4 +1,42 @@
-﻿body {
+﻿/* The side navigation menu */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 11%;
+    max-width: 25%;
+    min-width:150px;
+    background-color: #222222; /* Black*/
+    padding-top: 45px; /* */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The side navigation menu */
+.sidenav a {
+    background-color: #222222;
+    max-width: 250px;
+    padding: 8px 8px 8px 32px;
+    text-decoration:none;
+    font-size: 18px;
+    color: #428bca;
+    display: block;
+    line-height:1;
+}
+
+.plc {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #428bca;
+    line-height:1;
+    margin-right: 5px;
+    margin-left: -10%;
+    display: block;
+    transition: 0.3s
+}
+
+body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
@@ -23,39 +61,85 @@ textarea {
     max-width: 280px;
 }
 
-/* The side navigation menu */
-.sidenav {
-    height: 100%; /* 100% Full-height */
-    position: fixed;
-    top: 0;
-    left 0;
-    width: 11%;
-    max-width: 25%;
-    min-width:150px;
-    background-color: #222222; /* Black*/
-    padding-top: 45px; /* */
-    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+/* přidano Georgem */
+
+.date-in {
+    width: 135px;
+    padding: 2px 0px 2px 5px;    
+    border: 1px solid #808080;
+    border-radius: 2px;
 }
 
-/* The side navigation menu */
-.sidenav a {
-    background-color: #222222;
-    max-width: 250px;
-    padding: 8px 8px 8px 32px;
-    text-decoration:none;
-    font-size: 18px;
-    color: #428bca;
-    display: block;
-    line-height:1;
+.time-in {
+    width: 75px;
+    padding: 2px 0px 2px 5px;    
+    border: 1px solid #808080;
+    border-radius: 2px;
 }
-.plc {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 18px;
-    color: #428bca;
-    line-height:1;
-    margin-right: 5px;
-    margin-left: -10%;
-    display: block;
-    transition: 0.3s
+
+.form-item,
+.form-item div
+.form-item label
+.form-item input {   
+   float: left;
+   margin: 0px 0px 0px 10px;
+}
+
+.form-item input {
+    line-height: 12pt;
+}
+
+#bootstrap-overrides .rcp-in {
+    width: 40px; 
+}
+
+#bootstrap-overrides .thin-row th {
+    padding: 2px 0px 2px 4px;    
+}
+
+#bootstrap-overrides .thin-row td {
+    padding: 2px 4px 2px 4px;    
+}
+
+#bootstrap-overrides .form-item .checkbox {
+    margin: 2px 0px 2px 4px;    
+}
+
+#bootstrap-overrides .ov-tab tr:hover :not(th) {    
+    cursor: pointer;
+    background-color: #FFE4C4;
+}
+
+#bootstrap-overrides .det-tab tr:hover :not(th) {    
+    cursor: default;
+    background-color: #ffffff;
+}
+
+#bootstrap-overrides .tol-set {
+    width: 50px;    
+}
+
+#bootstrap-overrides .det-header p {
+    margin-bottom: 5px;
+}
+
+#bootstrap-overrides .det-header span {
+    padding: 0px 5px 0px 5px;
+    font-weight: 700;
+}
+
+#bootstrap-overrides .det-tab .status-nok {
+    padding: 0px 0px 0px 5px;
+    font-weight: 700;
+    color: #ff0000;
+}
+
+#bootstrap-overrides .det-tab .status-ok {
+    padding: 0px 5px 2px 5px;
+    font-weight: 700;
+    color: #00cc00;
+}
+
+#bootstrap-overrides .det-tab td {
+    padding-right: 4px; 
 }
