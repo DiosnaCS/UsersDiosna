@@ -7,7 +7,7 @@ using UsersDiosna.Report.Models;
 
 namespace UsersDiosna.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class ReportController : Controller
     {
         List<Batch> BatchList = new List<Batch>();
