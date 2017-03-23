@@ -7,11 +7,11 @@ namespace UsersDiosna.Report.Models
 
     public class ReportFormModel
     {
-        public long ConvertDT2pkTime(DateTime dateTime)
+        public Int32 ConvertDT2pkTime(DateTime dateTime)
         {
-            DateTime unixStart = DateTime.SpecifyKind(new DateTime(1970, 1, 1), DateTimeKind.Utc);
-            long pkTime = 0;            
-            pkTime = (long)Math.Floor((dateTime.ToUniversalTime() - unixStart).TotalSeconds);            
+            DateTime pkTimeStart = DateTime.SpecifyKind(new DateTime(2000, 1, 1), DateTimeKind.Utc);
+            Int32 pkTime = 0;            
+            pkTime = (Int32)(dateTime.ToUniversalTime() - pkTimeStart).TotalSeconds;
 
             return pkTime;
         }
@@ -22,15 +22,22 @@ namespace UsersDiosna.Report.Models
         // Count
         public Int16 Count { get; set; }
 
+        // pk time from
+        public Int32 pkTimeFrom { get; set; }
+
+        // pk time to
+        public Int32 pkTimeTo { get; set; }
+
         // date time from
         [Display(Name = "From:")]
         [DataType(DataType.DateTime)]
         public DateTime DateTimeFrom {
             get {
-                return DateTimeFrom;
+                DateTimeFrom = new DateTime();
+                return DateTimeFrom;                
             }           
-            set {                 
-                long DTFrom = ConvertDT2pkTime(DateTimeFrom);
+            set {
+                pkTimeFrom = ConvertDT2pkTime(value);
             }
         }       
 
@@ -40,10 +47,10 @@ namespace UsersDiosna.Report.Models
         public DateTime DateTimeTo {
             get
             {
-                    return DateTimeTo;
+                 return DateTimeTo;
             }
             set {
-                long DTFrom = ConvertDT2pkTime(DateTimeTo);
+                pkTimeTo = ConvertDT2pkTime(value);
             }
         }
 

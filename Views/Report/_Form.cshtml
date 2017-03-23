@@ -64,7 +64,7 @@
 
 <div onload="InitReportFilter()"> <!-- pozdeji onclick tlacitka v menu -->    
     <section id="reportForm">
-        @using (Html.BeginForm("Form", "Report", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Get, new { role = "form" }))
+        @using (Html.BeginForm("Index", "Report", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
         {
             <div>
                 @Html.HiddenFor(model => model.StartId, new { @id = "start_id", @value = 0} )
