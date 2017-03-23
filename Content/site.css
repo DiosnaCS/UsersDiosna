@@ -63,15 +63,8 @@ textarea {
 
 /* přidano Georgem */
 
-.date-in {
-    width: 135px;
-    padding: 2px 0px 2px 5px;    
-    border: 1px solid #808080;
-    border-radius: 2px;
-}
-
-.time-in {
-    width: 75px;
+.date-time {
+    width: 185px;
     padding: 2px 0px 2px 5px;    
     border: 1px solid #808080;
     border-radius: 2px;

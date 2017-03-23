@@ -72,26 +72,18 @@
 
                 <!-- time from -->
                 <div class="form-item">
-                   <!-- <label for="time_from">Time from:</label>                        
-                    <input id="time_from" class="date-time-in" type="datetime" value="01.01.2017__00:00" /> -->
-                    @Html.LabelFor(model => model.DateFrom)
-                    @Html.TextBoxFor(model => model.DateFrom, new { @id = "date_from", @class = "date-in", @type = "date", @name = "date_from", @value=DateTime.Now })                                        
-                    @Html.TextBoxFor(model => model.TimeFrom, new { @id = "time_from", @class = "time-in", @type = "time", @name = "time_from", @value = DateTime.Now })                    
+                    @Html.LabelFor(model => model.DateTimeFrom)
+                    @Html.TextBoxFor(model => model.DateTimeFrom, new { @id = "date-time_from", @class = "date-time", @type = "datetime-local", @name = "date-time_from"})
                 </div>
                 <!-- time to -->
-                <div class="form-item">          
-                    <!-- <label for="time_to">Time to:</label>
-                    <input id="time_to" class="date-time-in" type="datetime" value="01.01.2017__00:00" /> -->
-                    @Html.LabelFor(model => model.DateTo)
-                    @Html.TextBoxFor(model => model.DateTo, new { @id = "date_to", @class = "date-in", @name = "date_to", @type = "date" })                                        
-                    @Html.TextBoxFor(model => model.TimeTo, new { @id = "time_to", @class = "time-in", @name = "time_to", @type = "time" })                   
+                <div class="form-item">
+                    @Html.LabelFor(model => model.DateTimeTo)
+                    @Html.TextBoxFor(model => model.DateTimeTo, new { @id = "date-time_to", @class = "date-time", @type = "datetime-local", @name = "date-time_to" })
                 </div>
                 <!-- rcp -->
-                <div class="form-item">
-                    <!-- <label for="rcp">Rcp:</label> -->
+                <div class="form-item">                    
                     @Html.LabelFor(model => model.Recipe)
-                    @Html.TextBoxFor(model => model.Recipe, new { @id = "recipe", @class = "rcp-in", @type = "number", @name = "recipe", @value = "0", @min = 0, @max = 30, @style = "width:50px;" })
-                    <!-- <input id="rcp" value="0" type=number  style="width:50px;"/> -->
+                    @Html.TextBoxFor(model => model.Recipe, new { @id = "recipe", @class = "rcp-in", @type = "number", @name = "recipe", @value = "0", @min = 0, @max = 30, @style = "width:50px;" })                    
                 </div>
                 <!-- over Rcp limits -->
                 <div class="form-item">                        
@@ -103,7 +95,7 @@
                 <!-- amount -->
                 <div class="form-item">
                     <div>
-                        @Html.CheckBoxFor(model => model.Par1Sel, new { @type = "checkbox", @onchange = "InputEnable(this, tol1)" })
+                        @Html.CheckBoxFor(model => model.Par1Sel, new { @onchange = "InputEnable(this, tol1)" })
                         @Html.LabelFor(model => model.Par1Sel)
                     </div>
                     <div>
@@ -115,7 +107,7 @@
                 <!-- temperature -->
                 <div class="form-item">
                     <div>
-                        @Html.CheckBoxFor(model => model.Par2Sel, new { @type = "checkbox", @onchange = "InputEnable(this, tol2)" })
+                        @Html.CheckBoxFor(model => model.Par2Sel, new { @onchange = "InputEnable(this, tol2)" })
                         @Html.LabelFor(model => model.Par2Sel)                        
                     </div>
                     <div>
@@ -126,7 +118,7 @@
                 <!-- step time -->
                 <div class="form-item">
                     <div>
-                        @Html.CheckBoxFor(model => model.Par3Sel, new { @type = "checkbox", @onchange = "InputEnable(this, tol3)" })
+                        @Html.CheckBoxFor(model => model.Par3Sel, new { @onchange = "InputEnable(this, tol3)" })
                         @Html.LabelFor(model => model.Par3Sel)                        
                     </div>
                     <div>
@@ -137,7 +129,7 @@
                 <!-- interstep time -->
                 <div class="form-item">
                     <div>
-                        @Html.CheckBoxFor(model => model.Par4Sel, new { @type = "checkbox", @onchange = "InputEnable(this, tol4)" })
+                        @Html.CheckBoxFor(model => model.Par4Sel, new { @onchange = "InputEnable(this, tol4)" })
                         @Html.LabelFor(model => model.Par4Sel)                        
                     </div>                    
                     <div>
