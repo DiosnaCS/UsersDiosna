@@ -31,10 +31,11 @@ namespace UsersDiosna.Controllers
         }
 
         public void SelectReport(ReportFormModel model) {
-            DateTime D = model.DateFrom;
-            DateTime T = model.TimeFrom;
-            int date;//in pkTIime
+            //DateTime D = model.DateFrom;
+            //DateTime T = model.TimeFrom;
+            int DateFrom;
             int recipeNo = model.Recipe;
+
         }
     }
 }
