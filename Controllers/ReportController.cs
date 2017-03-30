@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using UsersDiosna.Report.Models;
+using System.Collections.Generic;
 
 namespace UsersDiosna.Controllers
 {
@@ -29,11 +30,30 @@ namespace UsersDiosna.Controllers
             SelectReport(model);
             return PartialView("_Overview");
         }
-
-        public void SelectReport(ReportFormModel model) {
-            DateTime dt = model.DateTimeFrom;            
-            int date; //in pkTIime
+        /// <summary>
+        /// Unfortuantly this is only for Dubravica 
+        /// </summary>
+        /// <param name="model">Model with data from form</param>
+        public async void SelectReport(ReportFormModel model) {
+            int dateFrom = model.pkTimeFrom; //in pkTime
+            int dateTo = model.pkTimeTo; //in pkTime
             int recipeNo = model.Recipe;
+            bool OverLimits = model.Par0Sel;
+            List<object[]> results = new List<object[]>();
+            string sql;
+            db db = new db("Dubravica", 2);
+            if (OverLimits == true)
+            {
+                sql = String.Format("SELECT * FROM events WHERE \"diBatchNo\" IN (SELECT \"diBatchNo\" FROM events WHERE \"diTimestamp\" >= {0} AND \"diTimestamp\" <= {1} AND \"iRecipeNo\" = {2} AND \"diNeedDone\" <= (\"diPosToler\" + getneedValue(\"diBatchNo\") + {3}) AND \"diNeedDone\" >= (getneedValue(\"diBatchNo\") - \"diNegToler\") - {4})",
+                                    dateFrom, dateTo, recipeNo, );
+
+            }
+            else {
+                sql = String.Format("SELECT * FROM events WHERE \"diBatchNo\" IN (SELECT \"diBatchNo\" FROM events WHERE \"diTimestamp\" >= {0} AND \"diTimestamp\" <= {1} AND \"iRecipeNo\" = {2} AND \"diNeedDone\" <= ({3} + getneedValue(\"diBatchNo\") AND \"diNeedDone\" >= (getneedValue(\"diBatchNo\") - {4}))",
+                                    dateFrom, dateTo, recipeNo, );
+            }
+
+            results = await db.multipleItemSelectPostgresAsync(sql);
         }
     }
 }

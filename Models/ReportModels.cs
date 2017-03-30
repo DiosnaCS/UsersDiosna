@@ -30,12 +30,10 @@ namespace UsersDiosna.Report.Models
 
         // date time from
         [Display(Name = "From:")]
+        public DateTime DateTimeFormFrom { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime DateTimeFrom {
-            get {
-                DateTimeFrom = new DateTime();
-                return DateTimeFrom;                
-            }           
+            get { return DateTimeFormFrom; }
             set {
                 pkTimeFrom = ConvertDT2pkTime(value);
             }
@@ -43,12 +41,10 @@ namespace UsersDiosna.Report.Models
 
         // date time to
         [Display(Name = "To:")]
+        public DateTime DateTimeFormTo { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime DateTimeTo {
-            get
-            {
-                 return DateTimeTo;
-            }
+            get { return DateTimeFormTo; }
             set {
                 pkTimeTo = ConvertDT2pkTime(value);
             }
@@ -62,32 +58,32 @@ namespace UsersDiosna.Report.Models
         [Display(Name = "over lim.")]
         public bool Par0Sel { get; set; }
 
-        // amount
+        // amount       
         [Display(Name = "Amount: ")]
+        public bool Par1Sel { get; set; }       
+        public string Par1Tol { get; set; }        
         public const int Par1Tol_coef = 1000;
-        public bool Par1Sel { get; set; }
-        public float Par1Tol { get; set; }
         public int Par1Tol_req { get; set; }
 
         // temperature
         [Display(Name = "Temperature: ")]
-        public const int Par2Tol_coef = 10;
         public bool Par2Sel { get; set; }
-        public float Par2Tol { get; set; }
+        public string Par2Tol { get; set; }        
+        public const int Par2Tol_coef = 10;        
         public int Par2Tol_req { get; set; }
 
         // step time
         [Display(Name = "Step time: ")]
-        public const int Par3Tol_coef = 60;
-        public bool Par3Sel { get; set; }
-        public float Par3Tol { get; set; }
+        public bool Par3Sel { get; set; }        
+        public string Par3Tol { get; set; }
+        public const int Par3Tol_coef = 60;                
         public int Par3Tol_req { get; set; }
 
         // interstep time
         [Display(Name = "Interstep time: ")]
+        public bool Par4Sel { get; set; }        
+        public string Par4Tol { get; set; }
         public const int Par4Tol_coef = 60;
-        public bool Par4Sel { get; set; }
-        public float Par4Tol { get; set; }
         public int Par4Tol_req { get; set; }
 
     }

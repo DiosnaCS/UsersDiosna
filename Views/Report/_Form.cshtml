@@ -35,30 +35,25 @@
 
     // disable or enable input
     function InputEnable(el_s,el_d) {        
-        if ($(el_s).prop('checked') == true) {            
+        if ($(el_s).prop('checked') == true) {
             $(el_d).prop("disabled", false);
         }
         else {
+            console.log('false');
             $(el_d).prop("disabled", true);
             $(el_d).prop("value", 0);
         }
     }
 
     function InitReportFilter() {
-        $("tol1").prop("disabled", true);
-        $("tol2").prop("disabled", true);
-        $("tol3").prop("disabled", true);
-        $("tol4").prop("disabled", true);        
+        InputEnable();
     }
 
     function RecalcCount(rowHeight) {
         var count;
-        count = Math.round((windowHeight() - $('.navbar').height() - $('#top_menu').height() - $('.message').height() - $('footer').height()-25) / rowHeight);
-        console.log(count);
-
-        //$("#count").attr('value', count);
-        //return count;
-    }
+        count = Math.round((windowHeight() - $('.navbar').height() - $('#top_menu').height() - $('.message').height() - $('footer').height()-25) / rowHeight);                
+        return count;
+    }    
     
 </script>
 
@@ -72,12 +67,12 @@
 
                 <!-- time from -->
                 <div class="form-item">
-                    @Html.LabelFor(model => model.DateTimeFrom)
-                    @Html.TextBoxFor(model => model.DateTimeFrom, new { @id = "date-time_from", @class = "date-time", @type = "datetime-local", @name = "date-time_from"})
+                    @Html.LabelFor(model => model.DateTimeFormFrom)
+                    @Html.TextBoxFor(model => model.DateTimeFrom, new { @id = "date-time_from", @class = "date-time", @type = "datetime-local", @name = "date-time_from", value="2017-01-01T0000"})
                 </div>
                 <!-- time to -->
                 <div class="form-item">
-                    @Html.LabelFor(model => model.DateTimeTo)
+                    @Html.LabelFor(model => model.DateTimeFormTo)
                     @Html.TextBoxFor(model => model.DateTimeTo, new { @id = "date-time_to", @class = "date-time", @type = "datetime-local", @name = "date-time_to" })
                 </div>
                 <!-- rcp -->
@@ -100,7 +95,8 @@
                     </div>
                     <div>
                         <label for="tol1">&plusmn</label>
-                        <input id="tol1" class="tol-set" value="0" name="tol1"  type=number min=0 max=100 step="0.1" /><span style="margin-left:5px;">kg</span>
+                        @Html.TextBoxFor(model => model.Par1Tol, new { @id = "tol1", @class = "tol-set", @name = "tol1", @value = "0", @type = "number", @min = 0, @max = 10, @step="0.1"})
+                        <span>kg</span>
                     </div>
 
                 </div>
@@ -112,7 +108,8 @@
                     </div>
                     <div>
                         <label for="tol2">&plusmn</label>
-                        <input id="tol2" class="tol-set" value="0" name="tol2" type=number min=0 max=10 step="0.1" /><span style="margin-left:5px;">°C</span>
+                        @Html.TextBoxFor(model => model.Par2Tol, new { @id = "tol2", @class = "tol-set", @name = "tol2", @value = "0", @type = "number", @min = 0, @max = 10, @step = "0.1" })
+                        <span>°C</span>                                                
                     </div>
                 </div>
                 <!-- step time -->
@@ -123,7 +120,8 @@
                     </div>
                     <div>
                         <label for="tol3">&plusmn</label>
-                        <input id="tol3" class="tol-set" value="0" name="tol3" type=number min=0 max=60 step="0.1" /><span style="margin-left:5px;">min</span>
+                        @Html.TextBoxFor(model => model.Par3Tol, new { @id = "tol3", @class = "tol-set", @name = "tol3", @value = "0", @type = "number", @min = 0, @max = 10, @step = "0.1" })
+                        <span>min</span>
                     </div>
                 </div>
                 <!-- interstep time -->
@@ -134,7 +132,8 @@
                     </div>                    
                     <div>
                         <label for="tol4">&plusmn</label>
-                        <input id="tol4" class="tol-set" value="0" name="tol4" type=number min=0 max=60 step="0.1"/><span style="margin-left:5px;">min</span>
+                        @Html.TextBoxFor(model => model.Par4Tol, new { @id = "tol4", @class = "tol-set", @name = "tol4", @value = "0", @type = "number", @min = 0, @max = 10, @step = "0.1" })
+                        <span>min</span>
                     </div>
                 </div>
             </div>

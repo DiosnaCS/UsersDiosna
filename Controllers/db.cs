@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
@@ -27,12 +28,24 @@ namespace UsersDiosna.Controllers
         /// Constructor to establish db connection on PostgreSQL database
         /// </summary>
         /// <param name="adb">database name</param>
+        public db(string aDB, int dataserverNumber)
+        {
+            string db = aDB;
+            string connstring = String.Format("Server={0};Port={1};User Id={2};Password={3};Database={4};",
+              "192.168.2.1" + dataserverNumber, 5432, "postgres", "Nordit0276", db);
+            connection = new NpgsqlConnection(connstring);
+        }
+
+        /// <summary>
+        /// Constructor to establish db connection on PostgreSQL database
+        /// </summary>
+        /// <param name="adb">database name</param>
         public db(string aDB, int dataserverNumber, int dbIndex)
         {
             string db = aDB;
             dbIdx = dbIndex;
             string connstring = String.Format("Server={0};Port={1};User Id={2};Password={3};Database={4};",
-              "192.168.2." + dataserverNumber, 5432, "postgres", "Nordit0276", db);
+              "192.168.2.1" + dataserverNumber, 5432, "postgres", "Nordit0276", db);
             connection = new NpgsqlConnection(connstring);
         }
 
@@ -403,6 +416,59 @@ namespace UsersDiosna.Controllers
             return result;
         }
 
+        public async Task<List<object[]>> multipleItemSelectPostgresAsync(string sql)
+        {
+            List<object[]> result = new List<object[]>();
+            if (connection.FullState == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            NpgsqlTransaction tran = connection.BeginTransaction();
+            NpgsqlCommand cmd = new NpgsqlCommand(sql, connection);
+            cmd.CommandType = CommandType.Text;
+            
+            NpgsqlDataReader r = cmd.ExecuteReader();
+
+            while (await r.ReadAsync())
+            {
+                object[] tmpObjectArray = new object[r.FieldCount];
+                for (int i = 0; i < (r.FieldCount); i++)
+                {
+                    tmpObjectArray[i] = r[i];
+                }
+                result.Add(tmpObjectArray);
+            }
+            r.Close();
+            cmd.Dispose();
+            return result;
+        }
+        public async Task<List<object[]>> multipleItemSelectPostgresAsync(NpgsqlParameterCollection SQLParamsCollection)
+        {
+            List<object[]> result = new List<object[]>();
+            if (connection.FullState == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+
+            NpgsqlCommand cmd = new NpgsqlCommand("SELECT FROM WHERE", connection);
+            cmd.Parameters.AddWithValue("", "");
+            NpgsqlDataReader r = cmd.ExecuteReader();
+
+            while (await r.ReadAsync())
+            {
+                object[] tmpObjectArray = new object[r.FieldCount];
+                for (int i = 0; i < (r.FieldCount); i++)
+                {
+                    tmpObjectArray[i] = r[i];
+                }
+                result.Add(tmpObjectArray);
+            }
+            r.Close();
+            cmd.Dispose();
+            return result;
+        }
         /// <summary>
         /// Method to select multiple items from postrgres db
         /// </summary>
@@ -497,7 +563,7 @@ namespace UsersDiosna.Controllers
         /// <param name="groupBy">string groupBy condition - function result</param>
         /// <param name="order">string orderBy condition - function result</param>
         /// <returns></returns>
-        public async Task<List<object[]>> multipleItemSelectPostgresAsync(string column, string table, string whereMultiple = null, string groupBy = null, string order = null)
+        public async Task<List<object[]>> multipleItemSelectPostgresAsync(string[] columns, string table, string whereMultiple = null, string groupBy = null, string order = null)
         {
             string sql = null;
             List<object[]> result = new List<object[]>();
@@ -511,22 +577,22 @@ namespace UsersDiosna.Controllers
                 {
                     if (order == null)
                     {
-                        sql = string.Format("SELECT {0}  FROM {1}", column, table);
+                        sql = string.Format("SELECT {0}  FROM {1}", columns, table);
                     }
                     else
                     {
-                        sql = string.Format("SELECT {0}  FROM {1} {2}", column, table, order);
+                        sql = string.Format("SELECT {0}  FROM {1} {2}", columns, table, order);
                     }
                 }
                 else
                 {
                     if (order == null)
                     {
-                        sql = string.Format("SELECT {0}  FROM {1} {2}", column, table, groupBy);
+                        sql = string.Format("SELECT {0}  FROM {1} {2}", columns, table, groupBy);
                     }
                     else
                     {
-                        sql = string.Format("SELECT {0}  FROM {1} {2} {3}", column, table, groupBy, order);
+                        sql = string.Format("SELECT {0}  FROM {1} {2} {3}", columns, table, groupBy, order);
                     }
                 }
             }
@@ -536,22 +602,22 @@ namespace UsersDiosna.Controllers
                 {
                     if (order == null)
                     {
-                        sql = string.Format("SELECT {0}  FROM {1} WHERE {2}", column, table, whereMultiple);
+                        sql = string.Format("SELECT {0}  FROM {1} WHERE {2}", columns, table, whereMultiple);
                     }
                     else
                     {
-                        sql = string.Format("SELECT {0}  FROM {1} WHERE {2} {3}", column, table, whereMultiple, order);
+                        sql = string.Format("SELECT {0}  FROM {1} WHERE {2} {3}", columns, table, whereMultiple, order);
                     }
                 }
                 else
                 {
                     if (order == null)
                     {
-                        sql = string.Format("SELECT {0}  FROM {1} WHERE {2} {3}", column, table, whereMultiple, groupBy);
+                        sql = string.Format("SELECT {0}  FROM {1} WHERE {2} {3}", columns, table, whereMultiple, groupBy);
                     }
                     else
                     {
-                        sql = string.Format("SELECT {0}  FROM {1} WHERE {2} {3} {4}", column, table, whereMultiple, groupBy, order);
+                        sql = string.Format("SELECT {0}  FROM {1} WHERE {2} {3} {4}", columns, table, whereMultiple, groupBy, order);
                     }
                 }
             }
@@ -619,5 +685,26 @@ namespace UsersDiosna.Controllers
             return groupBySQL;
         }
 
+    }
+
+    public class ReportDBHelper {
+        public NpgsqlConnection connection;
+        /// <summary>
+        /// Constructor to establish db connection on PostgreSQL database
+        /// </summary>
+        /// <param name="adb">database name</param>
+        public ReportDBHelper(string aDB, int dataserverNumber)
+        {
+            string DB = aDB;
+            string connstring = String.Format("Server={0};Port={1};User Id={2};Password={3};Database={4};",
+              "192.168.2." + dataserverNumber, 5432, "postgres", "Nordit0276", DB);
+            connection = new NpgsqlConnection(connstring);
+            connection.OpenAsync();
+        }
+        /*
+        public Task<List<object[]>> SelectAsync() {
+            
+            return;
+        }*/
     }
 }
