@@ -40,17 +40,48 @@ namespace UsersDiosna.Controllers
             int recipeNo = model.Recipe;
             bool OverLimits = model.Par0Sel;
             List<object[]> results = new List<object[]>();
-            string sql;
+            string sql = "";
             db db = new db("Dubravica", 2);
             if (OverLimits == true)
             {
-                sql = String.Format("SELECT * FROM events WHERE \"diBatchNo\" IN (SELECT \"diBatchNo\" FROM events WHERE \"diTimestamp\" >= {0} AND \"diTimestamp\" <= {1} AND \"iRecipeNo\" = {2} AND \"diNeedDone\" <= (\"diPosToler\" + getneedValue(\"diBatchNo\") + {3}) AND \"diNeedDone\" >= (getneedValue(\"diBatchNo\") - \"diNegToler\") - {4})",
-                                    dateFrom, dateTo, recipeNo, );
+                if ((model.Par1Sel || model.Par2Sel || model.Par3Sel || model.Par4Sel) == true) {
+                    if (model.Par1Sel == true) {
+                        sql =
+                    }
+                    if (model.Par2Sel == true) {
 
+                    }
+                    if (model.Par3Sel == true)
+                    {
+
+                    }
+                    if (model.Par4Sel == true)
+                    {
+
+                    }
+                } else {
+
+                }
             }
             else {
-                sql = String.Format("SELECT * FROM events WHERE \"diBatchNo\" IN (SELECT \"diBatchNo\" FROM events WHERE \"diTimestamp\" >= {0} AND \"diTimestamp\" <= {1} AND \"iRecipeNo\" = {2} AND \"diNeedDone\" <= ({3} + getneedValue(\"diBatchNo\") AND \"diNeedDone\" >= (getneedValue(\"diBatchNo\") - {4}))",
-                                    dateFrom, dateTo, recipeNo, );
+                if ((model.Par1Sel || model.Par2Sel || model.Par3Sel || model.Par4Sel) == true)
+                {
+                    if (model.Par1Sel == true)
+                    {
+                        sql =
+                    }
+                    if (model.Par2Sel == true)
+                    {
+                    }
+                    if (model.Par3Sel == true)
+                    {
+
+                    }
+                    if (model.Par4Sel == true)
+                    {
+
+                    }
+                }
             }
 
             results = await db.multipleItemSelectPostgresAsync(sql);
