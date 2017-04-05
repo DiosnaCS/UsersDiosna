@@ -39,6 +39,12 @@ namespace UsersDiosna.Controllers
             int dateTo = model.pkTimeTo; //in pkTime
             int recipeNo = model.Recipe;
             bool OverLimits = model.Par0Sel;
+            /*
+            List<object[]> res1 = new List<object[]>();
+            List<object[]> res2 = new List<object[]>();
+            List<object[]> res3 = new List<object[]>();
+            List<object[]> res4 = new List<object[]>();
+            */
             List<object[]> results = new List<object[]>();
             string sql = "";
             db db = new db("Dubravica", 2);
@@ -46,18 +52,18 @@ namespace UsersDiosna.Controllers
             {
                 if ((model.Par1Sel || model.Par2Sel || model.Par3Sel || model.Par4Sel) == true) {
                     if (model.Par1Sel == true) {
-                        sql =
+                        //sql += "\"getAvolationOverLimits\"("+ dateFrom +","+ dateTo +", "+ +")";
                     }
                     if (model.Par2Sel == true) {
-
+                        
                     }
                     if (model.Par3Sel == true)
                     {
-
+                        
                     }
                     if (model.Par4Sel == true)
                     {
-
+                        
                     }
                 } else {
 
@@ -68,7 +74,7 @@ namespace UsersDiosna.Controllers
                 {
                     if (model.Par1Sel == true)
                     {
-                        sql =
+                        
                     }
                     if (model.Par2Sel == true)
                     {
@@ -81,10 +87,13 @@ namespace UsersDiosna.Controllers
                     {
 
                     }
+                } else {
+
                 }
+
             }
 
-            results = await db.multipleItemSelectPostgresAsync(sql);
+            
         }
     }
 }

@@ -416,6 +416,34 @@ namespace UsersDiosna.Controllers
             return result;
         }
 
+        public List<object[]> multipleItemSelectPostgres(string sql)
+        {
+            List<object[]> result = new List<object[]>();
+            if (connection.FullState == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            NpgsqlTransaction tran = connection.BeginTransaction();
+            NpgsqlCommand cmd = new NpgsqlCommand(sql, connection);
+            cmd.CommandType = CommandType.Text;
+
+            NpgsqlDataReader r = cmd.ExecuteReader();
+
+            while (r.Read())
+            {
+                object[] tmpObjectArray = new object[r.FieldCount];
+                for (int i = 0; i < (r.FieldCount); i++)
+                {
+                    tmpObjectArray[i] = r[i];
+                }
+                result.Add(tmpObjectArray);
+            }
+            r.Close();
+            cmd.Dispose();
+            return result;
+        }
+
         public async Task<List<object[]>> multipleItemSelectPostgresAsync(string sql)
         {
             List<object[]> result = new List<object[]>();
