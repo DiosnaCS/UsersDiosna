@@ -120,11 +120,11 @@ namespace UsersDiosna.Report.Models
             }
             set
             {
-                InterStepTimTolerance = int.Parse(value);
+                InterStepTimeTolerance = int.Parse(value);
             }
         }
         public const int Par4Tol_coef = 60;
-        public int InterStepTimTolerance { get; set; }
+        public int InterStepTimeTolerance { get; set; }
 
     }
     [Flags]

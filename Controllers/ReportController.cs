@@ -34,30 +34,36 @@ namespace UsersDiosna.Controllers
         /// Unfortuantly this is only for Dubravica 
         /// </summary>
         /// <param name="model">Model with data from form</param>
-        public async void SelectReport(ReportFormModel model) {
+        public void SelectReport(ReportFormModel model) {
             int dateFrom = model.pkTimeFrom; //in pkTime
             int dateTo = model.pkTimeTo; //in pkTime
             int recipeNo = model.Recipe;
+
             bool OverLimits = model.Par0Sel;
-            /*
-            List<object[]> res1 = new List<object[]>();
-            List<object[]> res2 = new List<object[]>();
-            List<object[]> res3 = new List<object[]>();
-            List<object[]> res4 = new List<object[]>();
-            */
+            bool AmountSel = model.Par1Sel;
+            bool TempSel = model.Par1Sel;
+            bool StepTimeSel = model.Par1Sel;
+            bool InterStepTimeSel = model.Par1Sel;
+
             List<object[]> results = new List<object[]>();
             string sql = "";
+            string sqlFunctions = "";
+            string where = "";
             db db = new db("Dubravica", 2);
             if (OverLimits == true)
             {
                 if ((model.Par1Sel || model.Par2Sel || model.Par3Sel || model.Par4Sel) == true) {
-                    if (model.Par1Sel == true) {
-                        //sql += "\"getAvolationOverLimits\"("+ dateFrom +","+ dateTo +", "+ +")";
+                    if (AmountSel == true) {
+                        int AmountTolerance = model.AmountTolerance;
+                        sqlFunctions += "\"getAvolationOverLimits\"("+ dateFrom +","+ dateTo +", "+ AmountTolerance +", 11, \"diBatchNo\") AS amount";
+                        where += "\"diBatchNo\" IN(getWrongBatchesOverLimits("+ dateFrom +", "+ dateTo +", "+ AmountTolerance + ", 11, \"diBatchNo\"))";
                     }
-                    if (model.Par2Sel == true) {
-                        
+                    if (TempSel == true) {
+                        int TemperatureTolerance = model.TempTolerance;
+                        sqlFunctions += "\"getAvolationOverLimits\"(" + dateFrom + "," + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\") AS temperature";
+                        where += "\"diBatchNo\" IN(getWrongBatchesOverLimits(" + dateFrom + ", " + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\"))";
                     }
-                    if (model.Par3Sel == true)
+                    if (StepTimeSel == true)
                     {
                         
                     }
@@ -68,6 +74,7 @@ namespace UsersDiosna.Controllers
                 } else {
 
                 }
+                sql = "SELECT getstarttime(\"diBatchNo\") AS startTime, getendtime(\"diBatchNo\") AS endTime, getrecipename(\"iRecipeNo\") AS recipeName," + sqlFunctions + " WHERE" +  where;
             }
             else {
                 if ((model.Par1Sel || model.Par2Sel || model.Par3Sel || model.Par4Sel) == true)
@@ -92,8 +99,7 @@ namespace UsersDiosna.Controllers
                 }
 
             }
-
-            
+            results = db.multipleItemSelectPostgres(sql);
         }
     }
 }
