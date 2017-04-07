@@ -54,12 +54,12 @@ namespace UsersDiosna.Controllers
             {
                 if ((model.Par1Sel || model.Par2Sel || model.Par3Sel || model.Par4Sel) == true) {
                     if (AmountSel == true) {
-                        int AmountTolerance = model.AmountTolerance;
+                        float AmountTolerance = model.AmountTolerance;
                         sqlFunctions += "\"getAvolationOverLimits\"("+ dateFrom +","+ dateTo +", "+ AmountTolerance +", 11, \"diBatchNo\") AS amount";
                         where += "\"diBatchNo\" IN(getWrongBatchesOverLimits("+ dateFrom +", "+ dateTo +", "+ AmountTolerance + ", 11, \"diBatchNo\"))";
                     }
                     if (TempSel == true) {
-                        int TemperatureTolerance = model.TempTolerance;
+                        float TemperatureTolerance = model.TempTolerance;
                         sqlFunctions += "\"getAvolationOverLimits\"(" + dateFrom + "," + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\") AS temperature";
                         where += "\"diBatchNo\" IN(getWrongBatchesOverLimits(" + dateFrom + ", " + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\"))";
                     }

@@ -67,10 +67,10 @@ namespace UsersDiosna.Report.Models
                 return sPar1Tol;
             }
             set {
-                AmountTolerance = int.Parse(value);
+                AmountTolerance = float.Parse(value);
             } }        
         public const int Par1Tol_coef = 1000;
-        public int AmountTolerance { get; set; }
+        public float AmountTolerance { get; set; }
 
         // temperature
         [Display(Name = "Temperature: ")]
@@ -84,11 +84,11 @@ namespace UsersDiosna.Report.Models
             }
             set
             {
-                TempTolerance = int.Parse(value);
+                TempTolerance = float.Parse(value);
             }
         }        
         public const int Par2Tol_coef = 10;        
-        public int TempTolerance { get; set; }
+        public float TempTolerance { get; set; }
 
         // step time
         [Display(Name = "Step time: ")]
@@ -102,11 +102,11 @@ namespace UsersDiosna.Report.Models
             }
             set
             {
-                StepTimeTolerance = int.Parse(value);
+                StepTimeTolerance = float.Parse(value);
             }
         }
         public const int Par3Tol_coef = 60;                
-        public int StepTimeTolerance { get; set; }
+        public float StepTimeTolerance { get; set; }
 
         // interstep time
         [Display(Name = "Interstep time: ")]
@@ -120,11 +120,11 @@ namespace UsersDiosna.Report.Models
             }
             set
             {
-                InterStepTimeTolerance = int.Parse(value);
+                InterStepTimeTolerance = float.Parse(value);
             }
         }
         public const int Par4Tol_coef = 60;
-        public int InterStepTimeTolerance { get; set; }
+        public float InterStepTimeTolerance { get; set; }
 
     }
     [Flags]
