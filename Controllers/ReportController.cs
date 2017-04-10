@@ -55,13 +55,20 @@ namespace UsersDiosna.Controllers
                 if ((model.Par1Sel || model.Par2Sel || model.Par3Sel || model.Par4Sel) == true) {
                     if (AmountSel == true) {
                         float AmountTolerance = model.AmountTolerance;
-                        sqlFunctions += "\"getAvolationOverLimits\"("+ dateFrom +","+ dateTo +", "+ AmountTolerance +", 11, \"diBatchNo\") AS amount";
-                        where += "\"diBatchNo\" IN(getWrongBatchesOverLimits("+ dateFrom +", "+ dateTo +", "+ AmountTolerance + ", 11, \"diBatchNo\"))";
+                        sqlFunctions += "getavolationoverlimits(" + dateFrom +","+ dateTo +", "+ AmountTolerance +", 11, \"diBatchNo\") AS amount";
+                        where += "\"diBatchNo\" IN(getwrongbatchesoverlimits(" + dateFrom +", "+ dateTo +", "+ AmountTolerance + ", 11, \"diBatchNo\"))";
                     }
                     if (TempSel == true) {
                         float TemperatureTolerance = model.TempTolerance;
-                        sqlFunctions += "\"getAvolationOverLimits\"(" + dateFrom + "," + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\") AS temperature";
-                        where += "\"diBatchNo\" IN(getWrongBatchesOverLimits(" + dateFrom + ", " + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\"))";
+                        sqlFunctions += ", getavolationoverlimits(" + dateFrom + "," + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\") AS temperature";
+						if (where.Contains(""))
+						{
+							where += " AND \"diBatchNo\" IN(getwrongbatchesoverlimits(" + dateFrom + ", " + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\"))";
+						}
+						else
+						{
+							where += "\"diBatchNo\" IN(getwrongbatchesoverlimits(" + dateFrom + ", " + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\"))";
+						}
                     }
                     if (StepTimeSel == true)
                     {
@@ -74,7 +81,7 @@ namespace UsersDiosna.Controllers
                 } else {
 
                 }
-                sql = "SELECT getstarttime(\"diBatchNo\") AS startTime, getendtime(\"diBatchNo\") AS endTime, getrecipename(\"iRecipeNo\") AS recipeName," + sqlFunctions + " WHERE" +  where;
+                sql = "SELECT DISTINCT getstarttime(\"diBatchNo\") AS startTime, getendtime(\"diBatchNo\") AS endTime, getrecipename(\"iRecipeNo\") AS recipeName," + sqlFunctions + " FROM events WHERE" +  where;
             }
             else {
                 if ((model.Par1Sel || model.Par2Sel || model.Par3Sel || model.Par4Sel) == true)

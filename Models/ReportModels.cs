@@ -67,9 +67,13 @@ namespace UsersDiosna.Report.Models
                 return sPar1Tol;
             }
             set {
-                AmountTolerance = float.Parse(value);
+				if (value != null)
+				{
+					AmountTolerance = float.Parse(value) * Amount_coef;
+				}
+				else { }
             } }        
-        public const int Par1Tol_coef = 1000;
+        public const int Amount_coef = 1000;
         public float AmountTolerance { get; set; }
 
         // temperature
@@ -84,10 +88,14 @@ namespace UsersDiosna.Report.Models
             }
             set
             {
-                TempTolerance = float.Parse(value);
+				if (value != null)
+				{
+					TempTolerance = float.Parse(value) * Temp_coef;
+				}
+				else { }
             }
         }        
-        public const int Par2Tol_coef = 10;        
+        public const int Temp_coef = 10;        
         public float TempTolerance { get; set; }
 
         // step time
@@ -102,10 +110,14 @@ namespace UsersDiosna.Report.Models
             }
             set
             {
-                StepTimeTolerance = float.Parse(value);
+				if (value != null)
+				{
+					StepTimeTolerance = float.Parse(value) * StepTime_coef;
+				}
+				else { }
             }
         }
-        public const int Par3Tol_coef = 60;                
+        public const int StepTime_coef = 60;                
         public float StepTimeTolerance { get; set; }
 
         // interstep time
@@ -120,10 +132,13 @@ namespace UsersDiosna.Report.Models
             }
             set
             {
-                InterStepTimeTolerance = float.Parse(value);
+				if (value != null)
+				{
+					InterStepTimeTolerance = float.Parse(value) * InterStepTime_coef;
+				} else {}
             }
         }
-        public const int Par4Tol_coef = 60;
+        public const int InterStepTime_coef = 60;
         public float InterStepTimeTolerance { get; set; }
 
     }
