@@ -59,24 +59,37 @@ namespace UsersDiosna.Controllers
                         where += "\"diBatchNo\" IN(getwrongbatchesoverlimits(" + dateFrom +", "+ dateTo +", "+ AmountTolerance + ", 11, \"diBatchNo\"))";
                     }
                     if (TempSel == true) {
-                        float TemperatureTolerance = model.TempTolerance;
-                        sqlFunctions += ", getavolationoverlimits(" + dateFrom + "," + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\") AS temperature";
-						if (where.Contains(""))
+                        float TemperatureTolerance = model.TempTolerance;                        
+						if (where.Length != 0 && sqlFunctions.Length != 0)
 						{
+							sqlFunctions += ", getavolationoverlimits(" + dateFrom + "," + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\") AS temperature";
 							where += " AND \"diBatchNo\" IN(getwrongbatchesoverlimits(" + dateFrom + ", " + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\"))";
 						}
 						else
 						{
+							sqlFunctions += "getavolationoverlimits(" + dateFrom + "," + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\") AS temperature";
 							where += "\"diBatchNo\" IN(getwrongbatchesoverlimits(" + dateFrom + ", " + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\"))";
 						}
                     }
                     if (StepTimeSel == true)
                     {
-                        
-                    }
-                    if (model.Par4Sel == true)
+						float StepTimeTolerance = model.StepTimeTolerance;
+						sqlFunctions += "getavolationoverlimits(" + dateFrom + "," + dateTo + ", " + StepTimeTolerance + ", 11, \"diBatchNo\") AS steptime";
+						if (where.Length != 0 && sqlFunctions.Length != 0)
+						{
+							sqlFunctions += ", getavolationoverlimits(" + dateFrom + "," + dateTo + ", " + StepTimeTolerance + ", 31, \"diBatchNo\") AS temperature";
+							where += " AND \"diBatchNo\" IN(getwrongbatchesoverlimits(" + dateFrom + ", " + dateTo + ", " + StepTimeTolerance + ", 31, \"diBatchNo\"))";
+						}
+						else
+						{
+							sqlFunctions += ", getavolationoverlimits(" + dateFrom + "," + dateTo + ", " + StepTimeTolerance + ", 31, \"diBatchNo\") AS temperature";
+							where += "\"diBatchNo\" IN(getwrongbatchesoverlimits(" + dateFrom + ", " + dateTo + ", " + StepTimeTolerance + ", 31, \"diBatchNo\"))";
+						}
+					}
+                    if (InterStepTimeSel == true)
                     {
-                        
+						float InterStepTimeTolerance = model.InterStepTimeTolerance;
+						sqlFunctions += "getavolationoverlimits(" + dateFrom + "," + dateTo + ", " + AmountTolerance + ", 11, \"diBatchNo\") AS amount";
                     }
                 } else {
 
@@ -86,21 +99,7 @@ namespace UsersDiosna.Controllers
             else {
                 if ((model.Par1Sel || model.Par2Sel || model.Par3Sel || model.Par4Sel) == true)
                 {
-                    if (model.Par1Sel == true)
-                    {
-                        
-                    }
-                    if (model.Par2Sel == true)
-                    {
-                    }
-                    if (model.Par3Sel == true)
-                    {
 
-                    }
-                    if (model.Par4Sel == true)
-                    {
-
-                    }
                 } else {
 
                 }
