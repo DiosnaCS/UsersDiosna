@@ -1,6 +1,12 @@
 ﻿@using UsersDiosna.Report.Models
 @model ReportViewModel
+<script>
+    function getBatch() {
+        var batchId = document.getElementById("batchid").nodeValue;
+        window.location = "/Report/getBatch?batchid=" + batchId;
+    }
 
+</script>
 <div class="ov-tab">
     <table class="table table-bordered thin-row">
         
@@ -16,8 +22,8 @@
 
         @{foreach (Batch batch in ViewBag.RVM.Batches)
         {
-        <tr>
-                <td>@batch.Id</td>
+        <tr onclick="getBatch()">
+                <td id="batchid">@batch.Id</td>
                 <td>@batch.StartTime</td>
                 <td>@batch.EndTime</td>
                 <td>@batch.RecipeName</td>

@@ -34,6 +34,12 @@ namespace UsersDiosna.Controllers
             ViewBag.RVM = RVM;
             return View();
         }
+
+        public ReportViewModel getBatch()
+        {
+           
+            return RVM;
+        }
         /// <summary>
         /// Unfortuantly this is only for Dubravica 
         /// </summary>
