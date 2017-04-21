@@ -22,19 +22,23 @@ namespace UsersDiosna.Controllers
         // GET: Report
         public ActionResult Index()
         {
+            ReportFormModel newOne = new ReportFormModel();
+            ReportViewModel RVM = SelectReports(newOne);
+            ViewBag.RVM = RVM;
             return View();
         }
         
         [HttpPost]
         public ActionResult Index(ReportFormModel model) {
-            SelectReport(model);
-            return PartialView("_Overview");
+            ReportViewModel RVM = SelectReports(model);
+            ViewBag.RVM = RVM;
+            return View();
         }
         /// <summary>
         /// Unfortuantly this is only for Dubravica 
         /// </summary>
         /// <param name="model">Model with data from form</param>
-        public void SelectReport(ReportFormModel model) {
+        public ReportViewModel SelectReports(ReportFormModel model) {
             int dateFrom = model.pkTimeFrom; //in pkTime
             int dateTo = model.pkTimeTo; //in pkTime
             int recipeNo = model.Recipe;
@@ -47,216 +51,70 @@ namespace UsersDiosna.Controllers
 
             List<object[]> results = new List<object[]>();
             string sql = "";
-            string sqlFunctions = "";
-            string where = "";
             db db = new db("Dubravica", 2);
-            if (OverLimits == true)
-            {
-                    if (model.Recipe == 0) {
-                        if (AmountSel == true) {
-                            float AmountTolerance = model.AmountTolerance;
-                            sqlFunctions += "getavolationoverlimits(" + dateFrom +","+ dateTo +", "+ AmountTolerance +", 11, \"diBatchNo\") AS amount";
-                            where += "\"diBatchNo\" IN(getwrongbatchesoverlimits(" + dateFrom +", "+ dateTo +", "+ AmountTolerance + ", 11, \"diBatchNo\"))";
-                        }
-                        if (TempSel == true) {
-                            float TemperatureTolerance = model.TempTolerance;                        
-						    if (where.Length != 0 && sqlFunctions.Length != 0)
-						    {
-							    sqlFunctions += ", getavolationoverlimits(" + dateFrom + "," + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\") AS temperature";
-							    where += " AND \"diBatchNo\" IN(getwrongbatchesoverlimits(" + dateFrom + ", " + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\"))";
-						    }
-						    else
-						    {
-							    sqlFunctions += "getavolationoverlimits(" + dateFrom + "," + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\") AS temperature";
-							    where += "\"diBatchNo\" IN(getwrongbatchesoverlimits(" + dateFrom + ", " + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\"))";
-						    }
-                        }
-                        if (StepTimeSel == true)
-                        {
-						    float StepTimeTolerance = model.StepTimeTolerance;
-						    sqlFunctions += "getavolationoverlimits(" + dateFrom + "," + dateTo + ", " + StepTimeTolerance + ", 11, \"diBatchNo\") AS steptime";
-						    if (where.Length != 0 && sqlFunctions.Length != 0)
-						    {
-							    sqlFunctions += ", getavolationoverlimits(" + dateFrom + "," + dateTo + ", " + StepTimeTolerance + ", 31, \"diBatchNo\") AS temperature";
-							    where += " AND \"diBatchNo\" IN(getwrongbatchesoverlimits(" + dateFrom + ", " + dateTo + ", " + StepTimeTolerance + ", 31, \"diBatchNo\"))";
-						    }
-						    else
-						    {
-							    sqlFunctions += "getavolationoverlimits(" + dateFrom + "," + dateTo + ", " + StepTimeTolerance + ", 31, \"diBatchNo\") AS temperature";
-							    where += "\"diBatchNo\" IN(getwrongbatchesoverlimits(" + dateFrom + ", " + dateTo + ", " + StepTimeTolerance + ", 31, \"diBatchNo\"))";
-						    }
-					    }
-                        if (InterStepTimeSel == true)
-                        {
-						    float InterStepTimeTolerance = model.InterStepTimeTolerance;
-                            if (where.Length != 0 && sqlFunctions.Length != 0)
-                            {
-                                sqlFunctions += ", getintersteptime(\"diBatchNo\") AS intersteptime";
-                                where += " AND getintersteptime(\"diBatchNo\")>=" + InterStepTimeTolerance;
-                            }
-                            else {
-                                sqlFunctions += "getintersteptime(\"diBatchNo\") AS intersteptime";
-                                where += "getintersteptime(\"diBatchNo\")>=" + InterStepTimeTolerance;
-                            }
-                        }
-                    } else {
-                            if (AmountSel == true)
-                            {
-                                float AmountTolerance = model.AmountTolerance;
-                                sqlFunctions += "getavolationoverlimitsrcpno(" + dateFrom + "," + dateTo + ", " + AmountTolerance + ", 11, \"diBatchNo\") AS amount";
-                                where += "\"diBatchNo\" IN(getwrongbatchesoverlimitsrcpno(" + dateFrom + ", " + dateTo + ", " + AmountTolerance + ", 11, \"diBatchNo\"))";
-                            }
-                            if (TempSel == true)
-                            {
-                                float TemperatureTolerance = model.TempTolerance;
-                                if (where.Length != 0 && sqlFunctions.Length != 0)
-                                {
-                                    sqlFunctions += ", getavolationoverlimitsrcpno(" + dateFrom + "," + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\") AS temperature";
-                                    where += " AND \"diBatchNo\" IN(getwrongbatchesoverlimitsrcpno(" + dateFrom + ", " + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\"))";
-                                }
-                                else
-                                {
-                                    sqlFunctions += "getavolationoverlimitsrcpno(" + dateFrom + "," + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\") AS temperature";
-                                    where += "\"diBatchNo\" IN(getwrongbatchesoverlimitsrcpno(" + dateFrom + ", " + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\"))";
-                                }
-                            }
-                            if (StepTimeSel == true)
-                            {
-                                float StepTimeTolerance = model.StepTimeTolerance;
-                                if (where.Length != 0 && sqlFunctions.Length != 0)
-                                {
-                                    sqlFunctions += ", getavolationoverlimitsrcpno(" + dateFrom + "," + dateTo + ", " + StepTimeTolerance + ", 31, \"diBatchNo\") AS temperature";
-                                    where += " AND \"diBatchNo\" IN(getwrongbatchesoverlimitsrcpno(" + dateFrom + ", " + dateTo + ", " + StepTimeTolerance + ", 31, \"diBatchNo\"))";
-                                }
-                                else
-                                {
-                                    sqlFunctions += "getavolationoverlimitsrcpno(" + dateFrom + "," + dateTo + ", " + StepTimeTolerance + ", 31, \"diBatchNo\") AS temperature";
-                                    where += "\"diBatchNo\" IN(getwrongbatchesoverlimitsrcpno(" + dateFrom + ", " + dateTo + ", " + StepTimeTolerance + ", 31, \"diBatchNo\"))";
-                                }
-                            }
-                            if (InterStepTimeSel == true)
-                            {
-                                float InterStepTimeTolerance = model.InterStepTimeTolerance;
-                                if (where.Length != 0 && sqlFunctions.Length != 0)
-                                {
-                                    sqlFunctions += ", getintersteptime(\"diBatchNo\") AS intersteptime";
-                                    where += " AND getintersteptime(\"diBatchNo\")>=" + InterStepTimeTolerance;
-                                }
-                                else
-                                {
-                                    sqlFunctions += "getintersteptime(\"diBatchNo\") AS intersteptime";
-                                    where += "getintersteptime(\"diBatchNo\")>=" + InterStepTimeTolerance;
-                                }
-                            }
-                    }
-                sql = "SELECT DISTINCT getstarttime(\"diBatchNo\") AS startTime, getendtime(\"diBatchNo\") AS endTime, getrecipename(\"iRecipeNo\") AS recipeName," + sqlFunctions + " FROM events WHERE " +  where;
-            }
-            else {
-                if (model.Recipe == 0)
-                {
-                    if (AmountSel == true)
-                    {
-                        float AmountTolerance = model.AmountTolerance;
-                        sqlFunctions += "getavolation(" + dateFrom + "," + dateTo + ", " + AmountTolerance + ", 11, \"diBatchNo\") AS amount";
-                        where += "\"diBatchNo\" IN(getwrongbatches(" + dateFrom + ", " + dateTo + ", " + AmountTolerance + ", 11, \"diBatchNo\"))";
-                    }
-                    if (TempSel == true)
-                    {
-                        float TemperatureTolerance = model.TempTolerance;
-                        if (where.Length != 0 && sqlFunctions.Length != 0)
-                        {
-                            sqlFunctions += ", getavolation(" + dateFrom + "," + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\") AS temperature";
-                            where += " AND \"diBatchNo\" IN(getwrongbatches(" + dateFrom + ", " + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\"))";
-                        }
-                        else
-                        {
-                            sqlFunctions += "getavolation(" + dateFrom + "," + dateTo + ", " + recipeNo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\") AS temperature";
-                            where += "\"diBatchNo\" IN(getwrongbatches(" + dateFrom + ", " + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\"))";
-                        }
-                    }
-                    if (StepTimeSel == true)
-                    {
-                        float StepTimeTolerance = model.StepTimeTolerance;
-                        if (where.Length != 0 && sqlFunctions.Length != 0)
-                        {
-                            sqlFunctions += ", getavolation(" + dateFrom + "," + dateTo + ", " + StepTimeTolerance + ", 31, \"diBatchNo\") AS temperature";
-                            where += " AND \"diBatchNo\" IN(getwrongbatches(" + dateFrom + ", " + dateTo + ", " + StepTimeTolerance + ", 31, \"diBatchNo\"))";
-                        }
-                        else
-                        {
-                            sqlFunctions += "getavolation(" + dateFrom + "," + dateTo + ", " + recipeNo + ", " + StepTimeTolerance + ", 31, \"diBatchNo\") AS temperature";
-                            where += "\"diBatchNo\" IN(getwrongbatches(" + dateFrom + ", " + dateTo + "," + StepTimeTolerance + ", 31, \"diBatchNo\"))";
-                        }
-                    }
-                    if (InterStepTimeSel == true)
-                    {
-                        float InterStepTimeTolerance = model.InterStepTimeTolerance;
-                        if (where.Length != 0 && sqlFunctions.Length != 0)
-                        {
-                            sqlFunctions += ", getintersteptime(\"diBatchNo\") AS intersteptime";
-                            where += " AND getintersteptime(\"diBatchNo\")>=" + InterStepTimeTolerance;
-                        }
-                        else
-                        {
-                            sqlFunctions += "getintersteptime(\"diBatchNo\") AS intersteptime";
-                            where += "getintersteptime(\"diBatchNo\")>=" + InterStepTimeTolerance;
-                        }
-                    }
-                }
-                
-             else {
-                    if (AmountSel == true)
-                    {
-                        float AmountTolerance = model.AmountTolerance;
-                        sqlFunctions += "getavolationrcpno(" + dateFrom + "," + dateTo + ", "+ recipeNo +", " + AmountTolerance + ", 11, \"diBatchNo\") AS amount";
-                        where += "\"diBatchNo\" IN(getwrongbatchesrcpno(" + dateFrom + ", " + dateTo + ", " + recipeNo + ", " + AmountTolerance + ", 11, \"diBatchNo\"))";
-                    }
-                    if (TempSel == true)
-                    {
-                        float TemperatureTolerance = model.TempTolerance;
-                        if (where.Length != 0 && sqlFunctions.Length != 0)
-                        {
-                            sqlFunctions += ", getavolationrcpno(" + dateFrom + "," + dateTo + ", " + recipeNo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\") AS temperature";
-                            where += " AND \"diBatchNo\" IN(getwrongbatchesrcpno(" + dateFrom + ", " + dateTo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\"))";
-                        }
-                        else
-                        {
-                            sqlFunctions += "getavolationrcpno(" + dateFrom + "," + dateTo + ", " + recipeNo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\") AS temperature";
-                            where += "\"diBatchNo\" IN(getwrongbatchesrcpno(" + dateFrom + ", " + dateTo + ", " + recipeNo + ", " + TemperatureTolerance + ", 21, \"diBatchNo\"))";
-                        }
-                    }
-                    if (StepTimeSel == true)
-                    {
-                        float StepTimeTolerance = model.StepTimeTolerance;
-                        if (where.Length != 0 && sqlFunctions.Length != 0)
-                        {
-                            sqlFunctions += ", getavolationrcpno(" + dateFrom + "," + dateTo + ", " + recipeNo + ", " + StepTimeTolerance + ", 31, \"diBatchNo\") AS steptime";
-                            where += " AND \"diBatchNo\" IN(getwrongbatchesrcpno(" + dateFrom + ", " + dateTo + ", " + recipeNo + "," + StepTimeTolerance + ", 31, \"diBatchNo\"))";
-                        }
-                        else
-                        {
-                            sqlFunctions += "getavolationrcpno(" + dateFrom + "," + dateTo + ", " + recipeNo + ", " + StepTimeTolerance + ", 31, \"diBatchNo\") AS steptime";
-                            where += "\"diBatchNo\" IN(getwrongbatchesrcpno(" + dateFrom + ", " + dateTo + ", " + recipeNo + ", " + StepTimeTolerance + ", 31, \"diBatchNo\"))";
-                        }
-                    }
-                    if (InterStepTimeSel == true)
-                    {
-                        float InterStepTimeTolerance = model.InterStepTimeTolerance;
-                        if (where.Length != 0 && sqlFunctions.Length != 0)
-                        {
-                            sqlFunctions += ", getintersteptime(\"diBatchNo\") AS intersteptime";
-                            where += " AND getintersteptime(\"diBatchNo\")>=" + InterStepTimeTolerance;
-                        }
-                        else
-                        {
-                            sqlFunctions += "getintersteptime(\"diBatchNo\") AS intersteptime";
-                            where += "getintersteptime(\"diBatchNo\")>=" + InterStepTimeTolerance;
-                        }
-                    }
-                }
-            sql = "SELECT DISTINCT getstarttime(\"diBatchNo\") AS startTime, getendtime(\"diBatchNo\") AS endTime, getrecipename(\"iRecipeNo\") AS recipeName," + sqlFunctions + " FROM events WHERE " + where;
-        }
+
+            sql =  "SELECT dibatchno, MAX(pktimefrom) AS timefrom, MAX(pktimeto) AS timeto,";
+            sql += "MAX(rcpname) AS rcpname, MAX(rcpno) AS rcpno,";
+            sql += "MAX(maxamount) AS maxamnt, MAX(mintamount) AS minamnt,";
+            sql += "MAX(maxtemperature) AS maxtemp, MAX(mintemperature) AS mintemp,";
+            sql += "MAX(maxsteptime) AS maxst, MAX(minsteptime) AS minst,";
+            sql += "MAX(maxintersteptime) AS maxist, MAX(minintersteptime) AS minist ";
+            sql = string.Format(sql + "FROM get_bad_batches({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}) GROUP BY dibatchno ORDER BY dibatchno ASC", 
+                dateFrom, dateTo, recipeNo, OverLimits, AmountSel, model.AmountTolerance, 
+                TempSel, model.TempTolerance, StepTimeSel, model.StepTimeTolerance, InterStepTimeSel,
+                model.InterStepTimeTolerance);
+
             results = db.multipleItemSelectPostgres(sql);
+            ReportViewModel RVM = new ReportViewModel();
+            RVM.Batches = new Batch[results.Count];
+            int i = 0;
+            foreach (object[] result in results) {
+                Batch batch = new Batch();
+
+                //Id = BatchNo
+                batch.Id = Convert.ToUInt32(result[0]);
+
+                //pkTime StartTime format to model
+                long pkTime = Convert.ToInt64(result[1]);
+                long timeInNanoSeconds = pkTime * 10000000;
+                DateTime datetimeStart = new DateTime(((630836424000000000 - 13608000000000) + timeInNanoSeconds));
+                batch.StartTime = datetimeStart;
+
+                //pkTime EndTime format to model
+                pkTime = Convert.ToInt64(result[2]);
+                timeInNanoSeconds = pkTime * 10000000;
+                DateTime datetimeEnd = new DateTime(((630836424000000000 - 13608000000000) + timeInNanoSeconds));
+                batch.EndTime = datetimeEnd;
+                
+                //RecipeName 
+                batch.RecipeName = result[3].ToString();
+
+                //RecipeNumber
+                batch.RecipeNo = (int)result[4];
+
+                batch.status = BatchStatus.None;
+                //Batch Status
+                if (result[5].ToString().Length != 0 && result[6].ToString().Length != 0)
+                {
+                    batch.status |= BatchStatus.Amount;
+                }
+                if (result[7].ToString().Length != 0 && result[8].ToString().Length != 0)
+                {
+                    batch.status |= BatchStatus.Temperature;
+                }
+                if (result[9].ToString().Length != 0 && result[10].ToString().Length != 0)
+                {
+                    batch.status |= BatchStatus.StepTime;
+                }
+                if (result[11].ToString().Length != 0 && result[12].ToString().Length != 0)
+                {
+                    batch.status |= BatchStatus.InterStepTime;
+                }
+                //Batch to Batches
+                RVM.Batches[i] = batch;
+                i++;
+            }
+            return RVM;
         }
     }
 }

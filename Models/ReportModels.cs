@@ -33,20 +33,41 @@ namespace UsersDiosna.Report.Models
         public DateTime DateTimeFormFrom { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime DateTimeFrom {
-            get { return DateTimeFormFrom; }
-            set {
-                pkTimeFrom = ConvertDT2pkTime(value);
+            get
+            {
+                if (DateTimeFormTo.Ticks == 0)
+                {
+                    pkTimeFrom = ConvertDT2pkTime(new DateTime(DateTime.Today.Ticks - 864000000000));
+                    return DateTimeFormTo;
+                }
+                else
+                {
+                    return DateTimeFormTo;
+                }
             }
-        }       
+            set {
+                    pkTimeFrom = ConvertDT2pkTime(value);
+            }
+        }
 
         // date time to
         [Display(Name = "To:")]
         public DateTime DateTimeFormTo { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime DateTimeTo {
-            get { return DateTimeFormTo; }
+            get {
+                if (DateTimeFormTo.Ticks == 0)
+                {
+                    pkTimeTo = ConvertDT2pkTime(new DateTime(DateTime.Today.Ticks));
+                    return DateTimeFormTo;
+                }
+                else
+                {
+                    return DateTimeFormTo;
+                }
+            }
             set {
-                pkTimeTo = ConvertDT2pkTime(value);
+                    pkTimeTo = ConvertDT2pkTime(value);
             }
         }
 
@@ -69,12 +90,12 @@ namespace UsersDiosna.Report.Models
             set {
 				if (value != null)
 				{
-					AmountTolerance = float.Parse(value) * Amount_coef;
+					AmountTolerance = (int)(float.Parse(value) * Amount_coef);
 				}
 				else { }
             } }        
         public const int Amount_coef = 1000;
-        public float AmountTolerance { get; set; }
+        public int AmountTolerance { get; set; }
 
         // temperature
         [Display(Name = "Temperature: ")]
@@ -90,13 +111,13 @@ namespace UsersDiosna.Report.Models
             {
 				if (value != null)
 				{
-					TempTolerance = float.Parse(value) * Temp_coef;
+					TempTolerance = (int)(float.Parse(value) * Temp_coef);
 				}
 				else { }
             }
         }        
         public const int Temp_coef = 10;        
-        public float TempTolerance { get; set; }
+        public int TempTolerance { get; set; }
 
         // step time
         [Display(Name = "Step time: ")]
@@ -112,13 +133,13 @@ namespace UsersDiosna.Report.Models
             {
 				if (value != null)
 				{
-					StepTimeTolerance = float.Parse(value) * StepTime_coef;
+					StepTimeTolerance = (int)(float.Parse(value) * StepTime_coef);
 				}
 				else { }
             }
         }
         public const int StepTime_coef = 60;                
-        public float StepTimeTolerance { get; set; }
+        public int StepTimeTolerance { get; set; }
 
         // interstep time
         [Display(Name = "Interstep time: ")]
@@ -134,12 +155,12 @@ namespace UsersDiosna.Report.Models
             {
 				if (value != null)
 				{
-					InterStepTimeTolerance = float.Parse(value) * InterStepTime_coef;
+					InterStepTimeTolerance = (int)(float.Parse(value) * InterStepTime_coef);
 				} else {}
             }
         }
         public const int InterStepTime_coef = 60;
-        public float InterStepTimeTolerance { get; set; }
+        public int InterStepTimeTolerance { get; set; }
 
     }
     [Flags]
@@ -166,22 +187,10 @@ namespace UsersDiosna.Report.Models
     public class Batch
     {
         public uint Id /*diRecordNo directly from db*/ { get; set; }
-        public DateTime StartTime /*In pkTime from server, at a client conversion to dateTime*/ { get { return StartTime; }
-            set
-            {
-                long timeInNanoSeconds = value.Ticks * 10000000;
-                DateTime datetime = new DateTime(((630836424000000000 - 13608000000000) + timeInNanoSeconds));
-                StartTime = datetime;
-            } }
-        public DateTime EndTime /*In pkTime from server, at a client conversion to dateTime*/ { get { return EndTime; }
-            set
-            {
-                long timeInNanoSeconds = value.Ticks * 10000000;
-                DateTime datetime = new DateTime(((630836424000000000 - 13608000000000) + timeInNanoSeconds));
-                EndTime = datetime;
-            } }
-        public short RecipeNr /*iRecipeNo directly from db*/ { get; set; }
+        public DateTime StartTime /*In pkTime from server, at a client conversion to dateTime*/ { get; set; }
+        public DateTime EndTime /*In pkTime from server, at a client conversion to dateTime*/ { get; set; }
         public string RecipeName /*string directly from db*/ { get; set; }
+        public int RecipeNo /*string directly from db*/ { get; set; }
         public BatchStatus status /* flag type */ { get; set; }
         public List<RecipeStep> Steps /*List of Bataches for this Product */{ get; set; } //null until batch detail click
     }
