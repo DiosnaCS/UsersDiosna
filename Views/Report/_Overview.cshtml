@@ -2,7 +2,7 @@
 @model ReportViewModel
 <script>
     function getBatch() {
-        var batchId = document.getElementById("batchid").nodeValue;
+        var batchId = document.getElementById("batchid").textContent;        
         window.location = "/Report/getBatch?batchid=" + batchId;
     }
 
@@ -12,12 +12,11 @@
         
         <tr>
             <th style="width: 65px">ID</th>
-            <th style="width: 135px">Start</th>
-            <th style="width: 135px">End</th>
+            <th style="width: 155px">Start</th>
+            <th style="width: 155px">End</th>
             <th>Product</th>
             <th style="width: 65px;">Recipe</th>
             <th style="width: 100px">Status</th>
-            <link href="~/Content/site.css" rel="stylesheet" />
         </tr>
 
         @{foreach (Batch batch in ViewBag.RVM.Batches)

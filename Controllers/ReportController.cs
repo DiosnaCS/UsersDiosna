@@ -11,14 +11,6 @@ namespace UsersDiosna.Controllers
     //[Authorize]
     public class ReportController : Controller
     {
-        List<Batch> BatchList = new List<Batch>();
-        public void getBatch(object[] result) {
-            Batch batch = new Batch() { };
-            BatchList.Add(batch);
-        }
-        public ReportViewModel getReport(List<Batch> BatchList) {
-            return new ReportViewModel() { Batches = BatchList.ToArray() };
-        }
         // GET: Report
         public ActionResult Index()
         {
@@ -35,10 +27,11 @@ namespace UsersDiosna.Controllers
             return View();
         }
 
-        public ReportViewModel getBatch()
+        public ActionResult getBatch()
         {
-           
-            return RVM;
+            int batchId = int.Parse(Request.QueryString["id"].ToString());
+            getBatchData(batchId);
+            return View("Index");
         }
         /// <summary>
         /// Unfortuantly this is only for Dubravica 
@@ -102,25 +95,45 @@ namespace UsersDiosna.Controllers
                 //Batch Status
                 if (result[5].ToString().Length != 0 && result[6].ToString().Length != 0)
                 {
-                    batch.status |= BatchStatus.Amount;
+                    batch.status |= BatchStatus.AM;
                 }
                 if (result[7].ToString().Length != 0 && result[8].ToString().Length != 0)
                 {
-                    batch.status |= BatchStatus.Temperature;
+                    batch.status |= BatchStatus.Temp;
                 }
                 if (result[9].ToString().Length != 0 && result[10].ToString().Length != 0)
                 {
-                    batch.status |= BatchStatus.StepTime;
+                    batch.status |= BatchStatus.ST;
                 }
                 if (result[11].ToString().Length != 0 && result[12].ToString().Length != 0)
                 {
-                    batch.status |= BatchStatus.InterStepTime;
+                    batch.status |= BatchStatus.IST;
                 }
                 //Batch to Batches
                 RVM.Batches[i] = batch;
                 i++;
             }
             return RVM;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="batchId"></param>
+        public void getBatchData(int batchId)
+        {
+            string sql = "";
+            List<object[]> results = new List<object[]>();
+            db db = new db("Dubravica", 2);
+            results = db.multipleItemSelectPostgres(sql);
+
+            Steps Steps = new Steps();
+            int i = 0;
+            foreach (object[] result in results)
+            {
+                RecipeStep recipeStep = new RecipeStep();
+
+            }
         }
     }
 }

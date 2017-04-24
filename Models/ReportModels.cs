@@ -167,10 +167,10 @@ namespace UsersDiosna.Report.Models
     public enum BatchStatus
     {
         None = 0,
-        Amount = 1,
-        Temperature = 2,
-        StepTime = 4,
-        InterStepTime = 8
+        AM = 1, //Amount
+        Temp = 2, //Temperature
+        ST = 4, //StepTime
+        IST = 8 //InterStepTime
     }
 
     [Flags]
@@ -193,6 +193,10 @@ namespace UsersDiosna.Report.Models
         public int RecipeNo /*string directly from db*/ { get; set; }
         public BatchStatus status /* flag type */ { get; set; }
         public List<RecipeStep> Steps /*List of Bataches for this Product */{ get; set; } //null until batch detail click
+    }
+
+    public class Steps {
+        List<RecipeStep> BatchSteps = new List<RecipeStep>();
     }
 
     public class RecipeStep
