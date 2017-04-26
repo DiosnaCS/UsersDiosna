@@ -176,36 +176,59 @@ namespace UsersDiosna.Report.Models
     [Flags]
     public enum StepStatus
     {
-        None = 0,
-        Forced = 1,
+        Error = 0,
+        ForcedStart = 1,
         OK = 2,
      }
+
+    public enum OperationType
+    {
+        Dosing = 15,
+        Kneading = 25,
+        Ripping = 35,
+        Tipping = 45
+    }
+
     public class ReportViewModel
     {
         public Batch[] Batches; //array of current batches 
+
+        
     }
     public class Batch
     {
-        public uint Id /*diRecordNo directly from db*/ { get; set; }
+        public uint Id /*diBatchNo directly from db*/ { get; set; }
         public DateTime StartTime /*In pkTime from server, at a client conversion to dateTime*/ { get; set; }
         public DateTime EndTime /*In pkTime from server, at a client conversion to dateTime*/ { get; set; }
         public string RecipeName /*string directly from db*/ { get; set; }
         public int RecipeNo /*string directly from db*/ { get; set; }
         public BatchStatus status /* flag type */ { get; set; }
-        public List<RecipeStep> Steps /*List of Bataches for this Product */{ get; set; } //null until batch detail click
+        public int Diff { get; set; }
     }
 
     public class Steps {
-        List<RecipeStep> BatchSteps = new List<RecipeStep>();
+        public uint Id { get; set; }
+        public int BowlId { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public int RecipeNo { get; set; }
+        public string RecipeName  { get; set; }
+        public int StepsCount { get; set; }
+        public List<RecipeStep> BatchSteps = new List<RecipeStep>();
+        
     }
 
     public class RecipeStep
     {
-        //Whole model sorted from time ascending
+
+        //Whole model sorted from steps ascending
+        public int step /*step*/ { get; set; }
         public DateTime StartTime /*In pkTime from server, at a client conversion to dateTime*/ { get; set; }
         public DateTime EndTime /*In pkTime from server, at a client conversion to dateTime*/ { get; set; }
-        public byte OperationNr /*Resolve how to get that*/ { get; set; }
+        public int RecipeNo /*Device recipe*/{ get; set; }
+        public int DeviceId /*Device id*/{ get; set; }
         public string Device /*DeviceName directly from db*/ { get; set; }
+        public OperationType OperationNr /*Resolve how to get that*/ { get; set; }
         public Int32 Need /*DeviceName directly from db*/ { get; set; }
         public Int32 Done /*diNeedDone directly from db*/ { get; set; }
 

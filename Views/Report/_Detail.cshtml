@@ -2,45 +2,68 @@
 @model ReportViewModel
 
 @{
-     ViewBag.TitleDetail = "Batch detail:";
+    ViewBag.TitleDetail = "Batch detail:";
 }
 
 <h4>@ViewBag.TitleDetail</h4>
-
+@{ if (ViewBag.Steps != null)
+{
 <div class="det-header">    
-    <p>Batch ID:<span>1235</span></p>
-    <p>Bowl ID:<span>12</span></p>
-    <p>Recipe:<span>1 - Sourdough bread</span></p>
-    <p>Time:<span>11.02.2017 08:00</span>-<span>08:30</span></p>    
+    <p>Batch ID:<span>@ViewBag.Steps.Id</span></p>
+    <p>Bowl ID:<span>@ViewBag.Steps.BowlId</span></p>
+    <p>Recipe:<span>@ViewBag.Steps.RecipeNo - @ViewBag.Steps.RecipeName</span></p>
+    <p>Time:<span>@ViewBag.Steps.StartTime</span>-<span>@ViewBag.Steps.EndTime</span></p>    
 </div>
-
+} }
 <div>
     <table class="table table-bordered thin-row det-tab">
         <tr>
             <th style="width: 40px;">Step</th>            
-            <th style="width: 135px">Start</th>
-            <th style="width: 135px">End</th>
+            <th style="width: 155px">Start</th>
+            <th style="width: 155px">End</th>
             <th style="width: 100px">Operation</th>
-            <th style="width: 125px">Device ID</th>
-            <th style="min-width: 180px">Recipe of device</th>
+            <th style="width: 105px">Device ID</th>
+            <th style="min-width: 160px">Recipe of device</th>
             <th style="width: 105px">Need</th>
             <th style="width: 105px">Done</th>
             <th style="width: 105px">Diff</th>            
             <th style="width: 100px">Status</th>
         </tr>
+@{ 
+    if (ViewBag.Steps != null) {
+        foreach (RecipeStep step in ViewBag.Steps.BatchSteps)
+        {
         <tr data-toggle="tooltip" data-placement="left" title="Trace ID">
-            <td>01</td>
-            <td>11.02. 08:00:10</td>
-            <td>11.02. 08:12:50</td>
-            <td>dosing</td>
-            <td>65465</td>
-            <td></td>
-            <td class="text-right" data-toggle="tooltip" data-placement="top" title="-3kg / +7kg">450 kg&ensp;</td>
-            <td class="text-right">453 kg&ensp;</td>
-            <td class="text-right">+  3 kg&nbsp;</td>
-            <td class="status-ok">forced / ok</td>
+            <td>@step.step</td>
+            <td>@step.StartTime</td>
+            <td>@step.EndTime</td>
+            <td>@step.OperationNr</td>
+            <td>@step.DeviceId</td>
+            <td>@step.Device</td>
+            <td class="text-right" data-toggle="tooltip" data-placement="top">@step.Need g&ensp;</td>
+            <td class="text-right">@step.Done g&ensp;</td>
+            <td class="text-right">@{var diff = step.Done - step.Need;} @diff g&nbsp;</td>
+            <td class="status-ok">@step.Status</td>
         </tr>
-        <tr>
+        }
+        for (int i = 0; i<(ViewBag.Steps.StepsCount-ViewBag.Steps.BatchSteps.Count);i++)
+        {
+            <tr data-toggle="tooltip" data-placement="left" title="Trace ID">
+                <td>&ensp;</td>
+                <td>&ensp;</td>
+                <td>&ensp;</td>
+                <td>&ensp;</td>
+                <td>&ensp;</td>
+                <td>&ensp;</td>
+                <td class="text-right" data-toggle="tooltip" data-placement="top">&ensp;</td>
+                <td class="text-right">&ensp;</td>
+                <td class="text-right">&ensp;</td>
+                <td class="status-ok">&ensp;</td>
+            </tr>
+        }
+    }
+}
+        @*<tr>
             <td>02</td>            
             <td>11.02. 08:14:00</td>
             <td>11.02. 08:18:30</td>
@@ -63,7 +86,7 @@
             <td class="text-right">15,6 °C&ensp;</td>
             <td class="text-right">+  0,6 °C&ensp;</td>
             <td class="status-ok">ok</td>
-        </tr>
+        </tr>*@
     </table>
 </div>
 

@@ -2,14 +2,16 @@
 @model ReportViewModel
 <script>
     function getBatch() {
-        var batchId = document.getElementById("batchid").textContent;        
-        window.location = "/Report/getBatch?batchid=" + batchId;
+        var batchId = document.getElementById("batchid").textContent;
+        //var recipeno = document.getElementById("recipeno").textContent;
+        window.location = "/Report/getBatch?batchid=" + batchId; //+ "&recipeno=" + recipeno;
     }
 
 </script>
 <div class="ov-tab">
     <table class="table table-bordered thin-row">
-        
+ @{if (Model.Batches != null)
+     {
         <tr>
             <th style="width: 65px">ID</th>
             <th style="width: 155px">Start</th>
@@ -19,17 +21,19 @@
             <th style="width: 100px">Status</th>
         </tr>
 
-        @{foreach (Batch batch in ViewBag.RVM.Batches)
-        {
+         foreach (Batch batch in Model.Batches)
+         {
         <tr onclick="getBatch()">
                 <td id="batchid">@batch.Id</td>
                 <td>@batch.StartTime</td>
                 <td>@batch.EndTime</td>
                 <td>@batch.RecipeName</td>
-                <td>@batch.RecipeNo</td>
+                <td id="recipeno">@batch.RecipeNo</td>
                 <td><span class="status-ok">@batch.status</span></td>   
         </tr>
-            }}
+        }
+    }
+}
             @*<tr>
                 <td>1235</td>
                 <td>11.02.2017 08:00</td>
