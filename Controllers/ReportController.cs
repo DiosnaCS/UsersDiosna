@@ -11,56 +11,64 @@ namespace UsersDiosna.Controllers
     //[Authorize]
     public class ReportController : Controller
     {
+        public static ReportModel RVM;
         // GET: Report
         public ActionResult Index()
         {
-            ReportFormModel newOne = new ReportFormModel();
-            ReportViewModel RVM = SelectReports(newOne);
+            ReportModel RVM = new ReportModel();
+            RVM = SelectReports(RVM);
             ViewBag.RVM = RVM;
             return View(RVM);
         }
         
         [HttpPost]
-        public ActionResult Index(ReportFormModel model) {
-            ReportViewModel RVM = SelectReports(model);
+        public ActionResult Index(ReportModel model) {
+            RVM = SelectReports(model);
             ViewBag.RVM = RVM;
             return View(RVM);
         }
 
-        public ActionResult getBatch(ReportViewModel model)
+        public ActionResult getBatch()
         {
             int batchId = int.Parse(Request.QueryString["batchid"].ToString());
             ViewBag.Steps = getBatchData(batchId);
-            return View("Index", model);
+            return View("Index", RVM);
         }
         /// <summary>
         /// Unfortuantly this is only for Dubravica 
         /// </summary>
         /// <param name="model">Model with data from form</param>
-        public ReportViewModel SelectReports(ReportFormModel model)
+        public ReportModel SelectReports(ReportModel model)
         {
             List<object[]> results = getReportData(model);
-            ReportViewModel RVM = new ReportViewModel();
-            RVM.Batches = new Batch[results.Count];
+            
+            model.Batches = new Batch[results.Count];
             int i = 0;
             foreach (object[] result in results)
             {
                 Batch batch = new Batch();
 
                 //Id = BatchNo
-                batch.Id = Convert.ToUInt32(result[0]);
-
+                if (result[0] != DBNull.Value)
+                {
+                    batch.Id = Convert.ToUInt32(result[0]);
+                }
                 //pkTime StartTime format to model
-                long pkTime = Convert.ToInt64(result[1]);
-                long timeInNanoSeconds = pkTime * 10000000;
-                DateTime datetimeStart = new DateTime(((630836424000000000 - 13608000000000) + timeInNanoSeconds));
-                batch.StartTime = datetimeStart;
-
+                if (result[1] != DBNull.Value)
+                {
+                    long pkTime = Convert.ToInt64(result[1]);
+                    long timeInNanoSeconds = pkTime * 10000000;
+                    DateTime datetimeStart = new DateTime(((630836424000000000 - 13608000000000) + timeInNanoSeconds));
+                    batch.StartTime = datetimeStart;
+                }
                 //pkTime EndTime format to model
-                pkTime = Convert.ToInt64(result[2]);
-                timeInNanoSeconds = pkTime * 10000000;
-                DateTime datetimeEnd = new DateTime(((630836424000000000 - 13608000000000) + timeInNanoSeconds));
-                batch.EndTime = datetimeEnd;
+                if (result[2] != DBNull.Value)
+                {
+                    long pkTime = Convert.ToInt64(result[2]);
+                    long timeInNanoSeconds = pkTime * 10000000;
+                    DateTime datetimeEnd = new DateTime(((630836424000000000 - 13608000000000) + timeInNanoSeconds));
+                    batch.EndTime = datetimeEnd;
+                }
 
                 //RecipeName 
                 batch.RecipeName = result[3].ToString();
@@ -90,17 +98,17 @@ namespace UsersDiosna.Controllers
                     batch.status |= BatchStatus.IST;
                 }
                 //Batch to Batches
-                RVM.Batches[i] = batch;
+                model.Batches[i] = batch;
                 i++;
             }
-            return RVM;
+            return model;
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        private static List<object[]> getReportData(ReportFormModel model)
+        private static List<object[]> getReportData(ReportModel model)
         {
             int dateFrom = model.pkTimeFrom; //in pkTime
             int dateTo = model.pkTimeTo; //in pkTime
@@ -172,8 +180,10 @@ namespace UsersDiosna.Controllers
             RecipeStep rcpStep = new RecipeStep();
 
             //BatchId to model
-            Steps.Id = Convert.ToUInt32(results[0][0]);
-
+            if (results[0][0] != DBNull.Value)
+            {
+                Steps.Id = Convert.ToUInt32(results[0][0]);
+            }
 
             //BowlId to model
             if (results[0][6] != DBNull.Value)
@@ -182,17 +192,21 @@ namespace UsersDiosna.Controllers
             }
 
             //pkTime StartTime format to model
-            long pkTime = Convert.ToInt64(results[0][3]);
-            long timeInNanoSeconds = pkTime * 10000000;
-            DateTime datetimeStartBatch = new DateTime(((630836424000000000 - 13608000000000) + timeInNanoSeconds));
-            Steps.StartTime = datetimeStartBatch;
-
+            if (results[0][3] != DBNull.Value)
+            {
+                long pkTime = Convert.ToInt64(results[0][3]);
+                long timeInNanoSeconds = pkTime * 10000000;
+                DateTime datetimeStartBatch = new DateTime(((630836424000000000 - 13608000000000) + timeInNanoSeconds));
+                Steps.StartTime = datetimeStartBatch;
+            }
             //pkTime EndTime format to model
-            pkTime = Convert.ToInt64(results[0][4]);
-            timeInNanoSeconds = pkTime * 10000000;
-            DateTime datetimeEndBatch = new DateTime(((630836424000000000 - 13608000000000) + timeInNanoSeconds));
-            Steps.EndTime = datetimeEndBatch;
-
+            if (results[0][4] != DBNull.Value)
+            {
+                long pkTime = Convert.ToInt64(results[0][4]);
+                long timeInNanoSeconds = pkTime * 10000000;
+                DateTime datetimeEndBatch = new DateTime(((630836424000000000 - 13608000000000) + timeInNanoSeconds));
+                Steps.EndTime = datetimeEndBatch;
+            }
             //RecipeNo to model
             if (results[0][2] != DBNull.Value)
             {
@@ -213,8 +227,10 @@ namespace UsersDiosna.Controllers
                 RecipeStep recipeStep = new RecipeStep();
 
                 //Current Step
-                recipeStep.step = (int)results[i][1];
-
+                if (results[i][1] != DBNull.Value)
+                {
+                    recipeStep.step = (int)results[i][1];
+                }
                 //Device RecipeNo
                 if (results[i][2] != DBNull.Value)
                 {
@@ -222,17 +238,21 @@ namespace UsersDiosna.Controllers
                 }
 
                 //pkTime StartTime format to model
-                pkTime = Convert.ToInt64(results[i][3]);
-                timeInNanoSeconds = pkTime * 10000000;
-                DateTime datetimeStart = new DateTime(((630836424000000000 - 13608000000000) + timeInNanoSeconds));
-                recipeStep.StartTime = datetimeStart;
-
+                if (results[i][3] != DBNull.Value)
+                {
+                    long pkTime = Convert.ToInt64(results[i][3]);
+                    long timeInNanoSeconds = pkTime * 10000000;
+                    DateTime datetimeStart = new DateTime(((630836424000000000 - 13608000000000) + timeInNanoSeconds));
+                    recipeStep.StartTime = datetimeStart;
+                }
                 //pkTime EndTime format to model
-                pkTime = Convert.ToInt64(results[i][4]);
-                timeInNanoSeconds = pkTime * 10000000;
-                DateTime datetimeEnd = new DateTime(((630836424000000000 - 13608000000000) + timeInNanoSeconds));
-                recipeStep.EndTime = datetimeEnd;
-
+                if (results[i][4] != DBNull.Value)
+                {
+                    long pkTime = Convert.ToInt64(results[i][4]);
+                    long timeInNanoSeconds = pkTime * 10000000;
+                    DateTime datetimeEnd = new DateTime(((630836424000000000 - 13608000000000) + timeInNanoSeconds));
+                    recipeStep.EndTime = datetimeEnd;
+                }
                 //type of operation
                 switch ((int)results[i][5])
                 {

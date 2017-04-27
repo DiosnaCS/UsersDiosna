@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace UsersDiosna.Report.Models
 {   
 
-    public class ReportFormModel
+    public class ReportModel
     {
         public Int32 ConvertDT2pkTime(DateTime dateTime)
         {
@@ -162,6 +162,9 @@ namespace UsersDiosna.Report.Models
         public const int InterStepTime_coef = 60;
         public int InterStepTimeTolerance { get; set; }
 
+
+        //Data should be also there
+        public Batch[] Batches; //array of current batches 
     }
     [Flags]
     public enum BatchStatus
@@ -189,12 +192,6 @@ namespace UsersDiosna.Report.Models
         Tipping = 45
     }
 
-    public class ReportViewModel
-    {
-        public Batch[] Batches; //array of current batches 
-
-        
-    }
     public class Batch
     {
         public uint Id /*diBatchNo directly from db*/ { get; set; }
