@@ -4,9 +4,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
-using UsersDiosna.Models;
+using Dubravica.Models;
 
-namespace UsersDiosna
+namespace Dubravica
 {
     public partial class Startup
     {

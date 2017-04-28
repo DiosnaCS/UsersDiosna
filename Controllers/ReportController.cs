@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using UsersDiosna.Report.Models;
-using System.Collections.Generic;
+using Dubravica.Report.Models;
 
-namespace UsersDiosna.Controllers
+namespace Dubravica.Controllers
 {
     //[Authorize]
     public class ReportController : Controller
@@ -84,18 +81,26 @@ namespace UsersDiosna.Controllers
                 if (result[5].ToString().Length != 0 && result[6].ToString().Length != 0)
                 {
                     batch.status |= BatchStatus.AM;
+                    batch.maxDiff = (int)result[5];
+                    batch.minDiff = (int)result[6];
                 }
                 if (result[7].ToString().Length != 0 && result[8].ToString().Length != 0)
                 {
                     batch.status |= BatchStatus.Temp;
+                    batch.maxDiff = (int)result[7];
+                    batch.minDiff = (int)result[8];
                 }
                 if (result[9].ToString().Length != 0 && result[10].ToString().Length != 0)
                 {
                     batch.status |= BatchStatus.ST;
+                    batch.maxDiff = (int)result[9];
+                    batch.minDiff = (int)result[10];
                 }
                 if (result[11].ToString().Length != 0 && result[12].ToString().Length != 0)
                 {
                     batch.status |= BatchStatus.IST;
+                    batch.maxDiff = (int)result[11];
+                    batch.minDiff = (int)result[12];
                 }
                 //Batch to Batches
                 model.Batches[i] = batch;

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <setParameter name="IIS Web Application Name" value="192.168.2.41" />
+  <setParameter name="DubravicaConnectionString-Web.config Connection String" value="User Id=postgres;Password=Nordit0276;Host=192.168.2.12;Database=Dubravica;Persist Security Info=True" />
+  <setParameter name="DefaultConnection-Web.config Connection String" value="Data Source=MAREK-HP\SQL2016;Initial Catalog=C:\AKCE\ASPNET-MVCTutorial-20160422011939.MDF;Persist Security Info=True;User ID=sa;Password=Nordit0276" />
+</parameters>

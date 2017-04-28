@@ -6,7 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
-namespace UsersDiosna.Controllers
+namespace Dubravica.Controllers
 {
     //Class for MSSQL db
     public class db

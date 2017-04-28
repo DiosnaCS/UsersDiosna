@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using UsersDiosna.Admin.Models;
+using Dubravica.Admin.Models;
 using System.Web.Mvc;
 using System.Web.Security;
 
-namespace UsersDiosna.Controllers
+namespace Dubravica.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller

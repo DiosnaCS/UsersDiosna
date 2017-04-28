@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
-namespace UsersDiosna.File.Models
+namespace Dubravica.File.Models
 {
     public class FileFormModel
     {

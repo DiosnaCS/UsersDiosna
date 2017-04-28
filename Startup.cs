@@ -1,8 +1,8 @@
 ﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(UsersDiosna.Startup))]
-namespace UsersDiosna
+[assembly: OwinStartupAttribute(typeof(Dubravica.Startup))]
+namespace Dubravica
 {
     public partial class Startup
     {

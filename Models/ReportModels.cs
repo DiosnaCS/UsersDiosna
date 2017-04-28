@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace UsersDiosna.Report.Models
+namespace Dubravica.Report.Models
 {   
 
     public class ReportModel
@@ -200,7 +200,8 @@ namespace UsersDiosna.Report.Models
         public string RecipeName /*string directly from db*/ { get; set; }
         public int RecipeNo /*string directly from db*/ { get; set; }
         public BatchStatus status /* flag type */ { get; set; }
-        public int Diff { get; set; }
+        public int maxDiff { get; set; }
+        public int minDiff { get; set; }
     }
 
     public class Steps {

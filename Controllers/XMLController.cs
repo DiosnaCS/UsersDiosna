@@ -1,15 +1,15 @@
-﻿using UsersDiosna.File.Models;
+﻿using Dubravica.File.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Web.Mvc;
 using System.Xml;
 
-namespace UsersDiosna.Controllers
+namespace Dubravica.Controllers
 {
     public class XMLController : Controller
     {
-        public static String path = @"C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\Vizualization\UsersDiosna\Config";
+        public static String path = @"C:\Akce\Dubravica\Config";
         List<String> ProjectNames = new List<string>();
         List<int> ProjectNumbers = new List<int>();
         public string[] absoulte_path;

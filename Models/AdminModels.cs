@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
-namespace UsersDiosna.Admin.Models
+namespace Dubravica.Admin.Models
 {
     public class AdminAddMaskModel
     {

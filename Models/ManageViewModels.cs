@@ -4,7 +4,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using System.Web.Mvc;
 
-namespace UsersDiosna.Models
+namespace Dubravica.Models
 {
     public class IndexViewModel
     {

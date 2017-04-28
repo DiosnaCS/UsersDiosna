@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 
-namespace UsersDiosna.Controllers
+namespace Dubravica.Controllers
 {
     public class MenuController : Controller
     {

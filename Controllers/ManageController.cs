@@ -6,13 +6,13 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using UsersDiosna.Models;
+using Dubravica.Models;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Collections.Generic;
 using System.Web.Optimization;
 
-namespace UsersDiosna.Controllers
+namespace Dubravica.Controllers
 {
     [Authorize]
     public class ManageController : Controller
@@ -81,7 +81,7 @@ namespace UsersDiosna.Controllers
         public ActionResult ChangeTheme()
         {
             List<string> ThemesListString = new List<string>();
-            string startupPath = @"C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\Vizualization\UsersDiosna\Content";
+            string startupPath = @"C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\Vizualization\Dubravica\Content";
             try {
                 string[] absoulte_paths = System.IO.Directory.GetFiles(startupPath, "*bootstra*.css");
                 

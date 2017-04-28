@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.TitleReport = "Report of dough production";
+}
+
+<div id="bootstrap-overrides">
+
+    <h4>@ViewBag.TitleReport</h4>
+    @Html.Partial("_Form")
+    <div style="height: 90px"></div>
+    @if (ViewBag.Steps != null) {
+    @Html.Partial("_Detail")
+    }
+    <hr>
+    @Html.Partial("_Overview")
+</div>

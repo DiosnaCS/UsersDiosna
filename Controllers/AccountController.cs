@@ -4,9 +4,9 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using UsersDiosna.Models;
+using Dubravica.Models;
 
-namespace UsersDiosna.Controllers
+namespace Dubravica.Controllers
 {
     [Authorize]
     public class AccountController : Controller

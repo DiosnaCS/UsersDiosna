@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="DubravicaConnectionString-Web.config Connection String" description="DubravicaConnectionString Connection String used in web.config by the application to access the database." defaultValue="User Id=postgres;Password=Nordit0276;Host=192.168.2.12;Database=Dubravica;Persist Security Info=True" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\ADMIN\\Documents\\Visual\ Studio\ 2015\\Projects\\Dubravica\\Dubravica\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DubravicaConnectionString']/@connectionString" />
+  </parameter>
+  <parameter name="DefaultConnection-Web.config Connection String" description="DefaultConnection Connection String used in web.config by the application to access the database." defaultValue="Data Source=MAREK-HP\SQL2016;Initial Catalog=C:\AKCE\ASPNET-MVCTutorial-20160422011939.MDF;Persist Security Info=True;User ID=sa;Password=Nordit0276" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\ADMIN\\Documents\\Visual\ Studio\ 2015\\Projects\\Dubravica\\Dubravica\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+</parameters>

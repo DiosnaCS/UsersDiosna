@@ -8,7 +8,7 @@ using System.Web.SessionState;
 using System.Data.SqlClient;
 using System.Configuration;
 
-namespace UsersDiosna.Controllers
+namespace Dubravica.Controllers
 {
     public class HomeController : Controller
     {

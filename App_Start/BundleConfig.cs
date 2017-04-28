@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace UsersDiosna
+namespace Dubravica
 {
     public class BundleConfig
     {

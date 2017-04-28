@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace UsersDiosna.Models
+namespace Dubravica.Models
 {
     public class LoginViewModel
     {
